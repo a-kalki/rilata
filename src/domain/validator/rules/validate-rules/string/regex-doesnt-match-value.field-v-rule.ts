@@ -1,5 +1,5 @@
-import { ValidationRuleAnswer } from '../../types.js';
-import { ValidationRule } from '../../validation-rule.js';
+import { ValidationRuleAnswer } from '../../types.ts';
+import { ValidationRule } from '../../validation-rule.ts';
 
 export class RegexDoesntMatchValidationRule extends ValidationRule<'validate', string> {
   constructor(protected regex: RegExp, public requirement: string, private hint = {}) {

@@ -1,5 +1,5 @@
-import { ValidationRuleAnswer } from '../../types.js';
-import { ValidationRule } from '../../validation-rule.js';
+import { ValidationRuleAnswer } from '../../types.ts';
+import { ValidationRule } from '../../validation-rule.ts';
 
 export class StringChoiceValidationRule extends ValidationRule<'validate', string> {
   requirement = 'Значение должно быть одним из значений списка';

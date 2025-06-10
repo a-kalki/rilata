@@ -1,15 +1,15 @@
-import { DTO, MaybePromise } from '#core/types.js';
+import { DTO, MaybePromise } from '#core/types.ts';
 import { Repository } from './repository.ts';
 import { DatabaseServiceStatus, BatchRecords } from './types.ts';
 
 export interface Database {
   getRepositories(): Repository<string, DTO>[]
 
-  createDb(): MaybePromise<void>
+  createDb(): MaybePromise<unknown>
 
-  clearDb(): MaybePromise<void>
+  clearDb(): MaybePromise<unknown>
 
-  migrateDb(): MaybePromise<void>
+  migrateDb(): MaybePromise<unknown>
 
   creationStatus(): MaybePromise<DatabaseServiceStatus>
 
@@ -17,7 +17,7 @@ export interface Database {
 
   addBatch<R extends Repository<string, DTO>>(
     batchRecords: BatchRecords<R>
-  ): MaybePromise<void>
+  ): MaybePromise<unknown>
 
   stop(): void
 }

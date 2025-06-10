@@ -1,5 +1,5 @@
-import { AssertionException } from '#core/exeptions.js';
-import { BinaryKeyFlag } from '#core/utils/binary/binary-flag/binary-flag.js';
+import { AssertionException } from '#core/exeptions.ts';
+import { BinaryKeyFlag } from '#core/utils/binary/binary-flag/binary-flag.ts';
 import { LoggerModes, loggerModes } from './logger-modes.ts';
 import { Logger } from './logger.ts';
 

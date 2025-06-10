@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Failure } from './failure.js';
-import { Success } from './success.js';
+import { Failure } from './failure.ts';
+import { Success } from './success.ts';
 
 // ----------- ResultType -------------
 /** Основной тип Result */

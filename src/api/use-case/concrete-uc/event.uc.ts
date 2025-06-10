@@ -1,8 +1,9 @@
-import { success } from '../../../core/result/success.js';
-import { Result } from '../../../core/result/types.js';
-import { TransactionStrategy } from '../transaction-strategy/strategy.js';
-import { EventUCMeta, ServiceResult } from '../types.js';
-import { RequestScope } from '#core/index.ts';
+import { RequestScope } from '#api/module/types.ts';
+import { EventUCMeta } from '#core/app-meta.ts';
+import { UcResult } from '#core/contract.ts';
+import { success } from '../../../core/result/success.ts';
+import { Result } from '../../../core/result/types.ts';
+import { TransactionStrategy } from '../transaction-strategy/strategy.ts';
 import { CommandUseCase } from './command.uc.ts';
 
 export abstract class EventUseCase<META extends EventUCMeta> extends CommandUseCase<META> {
@@ -14,7 +15,7 @@ export abstract class EventUseCase<META extends EventUCMeta> extends CommandUseC
 
   protected abstract transactionStrategy: TransactionStrategy;
 
-  async execute(input: META['in'], reqScope: RequestScope): Promise<ServiceResult<META>> {
+  async execute(input: META['in'], reqScope: RequestScope): Promise<UcResult<META>> {
     const result = await super.execute(input, reqScope);
     if (result.isFailure()) {
       throw this.logger.error(

@@ -3,11 +3,11 @@ import { jwtHmacHashUtils } from '#api/utils/jwt/jwt-utils.ts';
 import { JwtVerifyErrors } from '#core/jwt-errors.ts';
 import { failure } from '#core/result/failure.ts';
 import { Result } from '#core/result/types.ts';
-import { DTO } from '#core/types.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
 import { JwtVerifier } from '../jwt-verifier.ts';
+import { JwtDto } from '../types.ts';
 
-export class JwtVerifierImpl<PAYLOAD extends DTO> implements JwtVerifier<PAYLOAD> {
+export class BunJwtVerifier<PAYLOAD extends JwtDto> implements JwtVerifier<PAYLOAD> {
   constructor(
     protected jwtSecret: string,
     protected jwtConfig: JwtConfig,

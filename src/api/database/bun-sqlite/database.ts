@@ -1,15 +1,20 @@
 /* eslint-disable no-use-before-define */
 import { Database as SqliteDb } from 'bun:sqlite';
 import { existsSync } from 'fs';
-import { DatabaseServiceStatus, BatchRecords } from '#api/database/types.js';
-import { Logger } from '#core/logger/logger.js';
-import { MigrationsSqliteRepository } from './repositories/migrations.js';
-import { BunSqliteRepository } from './repository.js';
-import { BunRepoCtor, RepositoryRecord } from './types.js';
-import { MaybePromise } from '#core/types.js';
-import { consoleColor } from '#core/utils/string/console-color.js';
-import { Repository } from '#api/database/repository.js';
-import { Database } from '#api/database/database.js';
+import { DatabaseServiceStatus, BatchRecords } from '#api/database/types.ts';
+import { Logger } from '#api/logger/logger.ts';
+import { MaybePromise } from '#core/types.ts';
+import { consoleColor } from '#core/utils/string/console-color.ts';
+import { Repository } from '#api/database/repository.ts';
+import { Database } from '#api/database/database.ts';
+import { MigrationsSqliteRepository } from './repositories/migrations.ts';
+import { BunSqliteRepository } from './repository.ts';
+import { RepositoryRecord } from './types.ts';
+
+type BunRepoCtor = new (db: BunSqliteDatabase) => BunSqliteRepository<
+  string,
+  RepositoryRecord
+>;
 
 const MEMORY_PATH = ':memory:';
 
@@ -141,8 +146,8 @@ export class BunSqliteDatabase implements Database {
 
   addBatch<R extends Repository<string, RepositoryRecord>>(
     batchRecords: BatchRecords<R>,
-  ): void {
-    const promises =Object.entries(batchRecords).map(([tableName, records]) => {
+  ): { changes: number }[] {
+    return Object.entries(batchRecords).map(([tableName, records]) => {
       const repo = this.getRepository(tableName);
       return repo.addBatch(records as RepositoryRecord[]);
     });

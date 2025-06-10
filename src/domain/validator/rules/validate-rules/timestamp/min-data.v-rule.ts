@@ -1,5 +1,5 @@
-import { ValidationRuleAnswer } from '../../types.js';
-import { ValidationRule } from '../../validation-rule.js';
+import { ValidationRuleAnswer } from '../../types.ts';
+import { ValidationRule } from '../../validation-rule.ts';
 
 export class MinDateStampValidationRule extends ValidationRule<'validate', number> {
   requirement = 'Дата должно быть позже {{minDate}}';

@@ -1,4 +1,4 @@
-const importHierarchyRules = require('./eslint-import-hierarchy.cjs');
+const lintRules = require('./lint-rules.cjs');
 
 module.exports = {
   parser: '@typescript-eslint/parser',
@@ -8,10 +8,10 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint/eslint-plugin',
-    ...importHierarchyRules.plugins,
+    ...lintRules.plugins,
   ],
   settings: {
-    ...importHierarchyRules.settings,
+    ...lintRules.settings,
   },
   extends: [
     'airbnb-base',
@@ -20,7 +20,7 @@ module.exports = {
   root: true,
   ignorePatterns: ['.eslintrc.ts', '*.js', 'dist/*'],
   rules: {
-    ...importHierarchyRules.rules,
+    ...lintRules.rules,
 
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
@@ -64,4 +64,5 @@ module.exports = {
     'object-curly-newline': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
   },
+  overrides: [],
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, test, expect } from 'bun:test';
-import { setUtils } from './set-utils.js';
+import { setUtils } from './set-utils.ts';
 
 describe('Set', () => {
   const sut = setUtils;

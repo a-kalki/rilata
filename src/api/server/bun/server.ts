@@ -4,22 +4,18 @@ import { Serve, Server as BUNServer } from 'bun';
 import { ServerMiddleware } from '#api/middle-after-ware/server-middleware.ts';
 import { ServerAfterware } from '#api/middle-after-ware/server-afterware.ts';
 import { Controller } from '#api/controller/controller.ts';
-import { ServerConfig, ServerMeta } from '../types.ts';
-import { Server } from '../server.ts';
-import { Module } from '#api/base.index.ts';
+import { ServerMeta } from '#api/server/types.ts';
+import { Server } from '#api/server/server.ts';
+import { Module } from '#api/module/module.ts';
 import { ModuleMeta } from '#api/module/types.ts';
+import { RilataRequest } from '#api/controller/types.ts';
+import { NotFoundError } from '#core/errors.ts';
+import { DTO } from '#core/types.ts';
+import { ResultDTO } from '#core/contract.ts';
+import { responseUtility } from '#api/utils/response/response-utility.ts';
 import { BunServerConfig } from './types.ts';
-import { ResultDTO, RilataRequest } from '#api/http.index.ts';
-import { InternalError, NotFoundError } from '#api/use-case/errors.ts';
-import { AppErrorMeta } from '#api/use-case/types.ts';
-import { responseUtility } from '#core/utils/api-index.ts';
-import { DTO } from '#core/index.ts';
 
 export abstract class BunServer<META extends ServerMeta> extends Server<META> {
-  port: number | undefined;
-
-  hostname: string | undefined;
-
   protected abstract middlewares: ServerMiddleware[];
 
   protected abstract afterwares: ServerAfterware[];
@@ -40,18 +36,17 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
 
   stop(): void {
     if (this.bunServer !== undefined) this.bunServer.stop();
-    this.resolver.logger.info(`Http Bun server stopped by address: ${this.hostname}:${this.port}`);
+    const { localPort, localHost } = this.config;
+    this.resolver.logger.info(`Http Bun server stopped by address: ${localHost}:${localPort}`);
     super.stop();
   }
 
-  run(): void {
+  protected startServer(): void {
     this.setControllerUrls();
     const { localPort, localHost } = this.config;
-    this.port = localPort;
-    this.hostname = localHost;
     this.fetch = this.fetch.bind(this);
     this.bunServer = Bun.serve(this as unknown as Serve<unknown>);
-    this.resolver.logger.info(`Http Bun server runned by address: ${this.hostname}:${this.port}`);
+    this.resolver.logger.info(`Http Bun server runned by address: ${localHost}:${localPort}`);
   }
 
   async fetch(req: Request): Promise<Response> {
@@ -93,7 +88,7 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
     this.regexUrls = [];
 
     const controllers = this.serverControllers;
-    this.modules.forEach((module) => controllers.push(module.moduleController));
+    this.modules.forEach((module) => controllers.push(module.getController()));
     controllers.forEach((controller) => {
       controller.getUrls().forEach((url) => {
         if (typeof url === 'string') this.stringUrls[url] = controller;

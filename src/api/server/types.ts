@@ -1,17 +1,20 @@
 /* eslint-disable no-bitwise */
-import { JwtCreator, JwtVerifier } from '#api/http.index.ts';
-import { DTO, RunMode } from '#core/types.ts';
 
-export type ServerConfig = {
-  loggerModes: Array<keyof typeof loggerModes> | 'all' | 'off'
-}
+import { JwtCreator } from '#api/jwt/jwt-creator.ts';
+import { JwtDecoder } from '#api/jwt/jwt-decoder.ts';
+import { JwtVerifier } from '#api/jwt/jwt-verifier.ts';
+import { JwtDto } from '#api/jwt/types.ts';
+import { Logger } from '#api/logger/logger.ts';
+import { RunMode } from '#core/types.ts';
+
+export type ServerConfig = Record<string, unknown>
 
 export type ServerResolver = {
   logger: Logger,
   runMode: RunMode,
-  jwtDecoder: JwtDecoder<DTO>,
-  jwtVerifier: JwtVerifier<DTO>,
-  jwtCreator: JwtCreator<DTO>,
+  jwtDecoder: JwtDecoder<JwtDto>,
+  jwtVerifier: JwtVerifier<JwtDto>,
+  jwtCreator: JwtCreator<JwtDto>,
 }
 
 export type ServerMeta = {

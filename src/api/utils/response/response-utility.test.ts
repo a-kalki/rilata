@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test';
-import { responseUtility } from './response-utility.js';
+import { responseUtility } from './response-utility.ts';
 
 describe('response utility tests', () => {
   describe('response utility method createJsonResponse', () => {

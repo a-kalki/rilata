@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { stat } from 'fs/promises';
-import { MimeTypes, ResponseFileOptions } from './types.js';
-import { mimeTypesMap, dispositionTypeMap, blobTypes } from './constants.js';
+import { MimeTypes, ResponseFileOptions } from './types.ts';
+import { mimeTypesMap, dispositionTypeMap, blobTypes } from './constants.ts';
 
 class ResponseUtility {
   /**

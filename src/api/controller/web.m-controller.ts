@@ -1,20 +1,20 @@
-import { ModuleMeta, Resolvers, Urls } from '#api/module/types.ts';
-import { WebModule } from '#api/module/web.module.js';
-import { BackendBaseErrors, BadRequestError } from '#api/use-case/errors.ts';
-import { RequestScope } from '#core/index.ts';
-import { failure } from '#core/result/failure.js';
-import { success } from '#core/result/success.js';
-import { Result } from '#core/result/types.js';
-import { STATUS_CODES } from '#core/utils/response/constants.ts';
-import { responseUtility } from '#core/utils/response/response-utility.js';
+import { ModuleMeta, RequestScope, Urls } from '#api/module/types.ts';
+import { WebModule } from '#api/module/web.module.ts';
+import { STATUS_CODES } from '#api/utils/response/constants.ts';
+import { responseUtility } from '#api/utils/response/response-utility.ts';
+import { ResultDTO } from '#core/contract.ts';
+import { BackendErrors, BadRequestError } from '#core/errors.ts';
+import { failure } from '#core/result/failure.ts';
+import { success } from '#core/result/success.ts';
+import { Result } from '#core/result/types.ts';
 import { Controller } from './controller.ts';
-import { ResultDTO, RilataRequest } from './types.js';
+import { RilataRequest } from './types.ts';
 
 export class WebModuleController implements Controller {
-  constructor(protected module: WebModule<ModuleMeta>, protected resolvers: Resolvers) {}
+  constructor(protected module: WebModule<ModuleMeta>, protected urls: Urls) {}
 
   getUrls(): Urls {
-    return this.resolvers.moduleResolver.moduleUrls;
+    return this.urls;
   }
 
   /** Переводит http на requestDod и serviceResult на Response<ResultDTO> */
@@ -30,7 +30,7 @@ export class WebModuleController implements Controller {
     if (ucResult.isSuccess()) {
       return this.getSuccessResponse(ucResult.value);
     }
-    const err = (ucResult as Result<BackendBaseErrors, never>).value;
+    const err = (ucResult as Result<BackendErrors, never>).value;
     return this.getFailureResponse(err);
   }
 
@@ -61,8 +61,8 @@ export class WebModuleController implements Controller {
     return responseUtility.createJsonResponse(resultDto, 200);
   }
 
-  protected getFailureResponse(err: BackendBaseErrors): Response {
-    const resultDto: ResultDTO<BackendBaseErrors, never> = {
+  protected getFailureResponse(err: BackendErrors): Response {
+    const resultDto: ResultDTO<BackendErrors, never> = {
       httpStatus: STATUS_CODES[err.name] ?? 400,
       success: false,
       payload: err,

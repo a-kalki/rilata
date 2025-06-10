@@ -19,5 +19,6 @@ export type BotReplyMessage = NotResponse
 
 export type BotLoggerConfig = {
   token: string,
+  name: string,
   managerIds: string[],
 }

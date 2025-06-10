@@ -1,5 +1,5 @@
-import { ValidationRule } from '../validation-rule.js';
-import { EmptyValueRuleAnswer } from '../types.js';
+import { ValidationRule } from '../validation-rule.ts';
+import { EmptyValueRuleAnswer } from '../types.ts';
 
 export class CanBeNullValidationRule extends ValidationRule<'nullable', unknown> {
   requirement = 'Значение может быть равным null';

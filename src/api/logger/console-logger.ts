@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { consoleColor } from '#core/utils/string/console-color.js';
+import { consoleColor } from '#core/utils/string/console-color.ts';
 import { BaseLogger } from './base-logger.ts';
 
 export class ConsoleLogger extends BaseLogger {

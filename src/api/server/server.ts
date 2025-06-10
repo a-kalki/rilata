@@ -1,12 +1,14 @@
+import { Logger } from '#api/logger/logger.ts';
 import { ModuleMeta } from '#api/module/types.ts';
-import { Logger } from '../../core/logger/logger.js';
-import { Module } from '../module/module.js';
+import { Module } from '../module/module.ts';
 import { ServerConfig, ServerMeta } from './types.ts';
 
-export abstract class Server<R extends ServerMeta> {
+export abstract class Server<META extends ServerMeta> {
+  abstract name: META['name'];
+
   constructor(
     protected config: ServerConfig,
-    protected resolver: R['resolver'],
+    protected resolver: META['resolver'],
     protected modules: Module<ModuleMeta>[],
   ) {}
 
@@ -21,19 +23,19 @@ export abstract class Server<R extends ServerMeta> {
     this.showServerStartedMessage();
 
     process.once('SIGINT', () => {
-      this.resolver.logger.info(`Сервер ${this.config.serverName} остановлен`);
+      this.resolver.logger.info(`Сервер ${this.name} остановлен`);
       this.stop();
       process.exit(0);
     });
 
     process.once('SIGTERM', () => {
-      this.resolver.logger.info(`Сервер ${this.config.serverName} остановлен`);
+      this.resolver.logger.info(`Сервер ${this.name} остановлен`);
       this.stop();
       process.exit(0);
     });
   }
 
-  getResolver(): R {
+  getResolver(): META['resolver'] {
     return this.resolver;
   }
 
@@ -49,7 +51,7 @@ export abstract class Server<R extends ServerMeta> {
     return module as M;
   }
 
-  getModules(): Module[] {
+  getModules(): Module<ModuleMeta>[] {
     return this.modules;
   }
 
@@ -58,6 +60,6 @@ export abstract class Server<R extends ServerMeta> {
   }
 
   protected showServerStartedMessage(): void {
-    this.resolver.logger.info(`Сервер ${this.config.serverName} запущен.`);
+    this.resolver.logger.info(`Сервер ${this.name} запущен.`);
   }
 }

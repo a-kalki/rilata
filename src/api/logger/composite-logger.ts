@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { AssertionException } from '../exeptions.js';
-import { Logger } from './logger.js';
-import { LoggerModes } from './logger-modes.js';
+import { AssertionException } from '#core/exeptions.ts';
+import { Logger } from './logger.ts';
+import { LoggerModes } from './logger-modes.ts';
 
 export class CompositeLogger implements Logger {
   constructor(protected loggers: Logger[]) {

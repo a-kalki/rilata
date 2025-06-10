@@ -20,7 +20,7 @@ export type UcPublishEventMeta = ArPublishEvent & {
 
 export type UCMeta = {
   name: string;
-  description: string;
+  description?: string;
   in: InputMeta;
   success: unknown;
   errors: DomainErrorMeta[];

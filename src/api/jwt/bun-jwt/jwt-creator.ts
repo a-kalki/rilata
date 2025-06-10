@@ -1,11 +1,10 @@
 import { JwtConfig } from '#api/server/types.ts';
 import { jwtHmacHashUtils } from '#api/utils/jwt/jwt-utils.ts';
-import { DTO } from '#core/types.ts';
 import { JwtCreator } from '../jwt-creator.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
-import { JwtPayload, JwtType } from '../types.ts';
+import { JwtDto, JwtPayload, JwtType } from '../types.ts';
 
-export class JwtCreatorImpl<PAYLOAD extends DTO> implements JwtCreator<PAYLOAD> {
+export class BunJwtCreator<PAYLOAD extends JwtDto> implements JwtCreator<PAYLOAD> {
   constructor(
     protected jwtSecret: string,
     protected jwtConfig: JwtConfig,

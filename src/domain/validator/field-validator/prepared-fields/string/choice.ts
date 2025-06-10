@@ -1,6 +1,6 @@
-import { StringChoiceValidationRule } from '../../../rules/validate-rules/string/string-choice.v-rule.js';
-import { LiteralFieldValidator } from '../../literal-field-validator.js';
-import { GetArrayConfig } from '../../types.js';
+import { StringChoiceValidationRule } from '../../../rules/validate-rules/string/string-choice.v-rule.ts';
+import { LiteralFieldValidator } from '../../literal-field-validator.ts';
+import { GetArrayConfig } from '../../types.ts';
 
 export class StringChoiceFieldValidator<
   NAME extends string, REQ extends boolean, IS_ARR extends boolean

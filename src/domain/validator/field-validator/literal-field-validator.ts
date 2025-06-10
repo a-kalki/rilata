@@ -1,10 +1,10 @@
-import { success } from '../../../core/result/success.js';
-import { LiteralDataType } from '../../validator/rules/types.js';
-import { ValidationRule } from '../../validator/rules/validation-rule.js';
-import { CannotBeEmptyStringAssertionRule } from '../rules/assert-rules/cannot-be-empty-string.v-rule.js';
-import { CannotBeNullableAssertionRule } from '../rules/assert-rules/cannot-be-nullable.a-rule.js';
-import { CanBeNullableRule } from '../rules/nullable-rules/can-be-nullable.n-rule.js';
-import { FieldValidator } from './field-validator.js';
+import { success } from '../../../core/result/success.ts';
+import { LiteralDataType } from '../../validator/rules/types.ts';
+import { ValidationRule } from '../../validator/rules/validation-rule.ts';
+import { CannotBeEmptyStringAssertionRule } from '../rules/assert-rules/cannot-be-empty-string.v-rule.ts';
+import { CannotBeNullableAssertionRule } from '../rules/assert-rules/cannot-be-nullable.a-rule.ts';
+import { CanBeNullableRule } from '../rules/nullable-rules/can-be-nullable.n-rule.ts';
+import { FieldValidator } from './field-validator.ts';
 import {
   FieldResult, GetArrayConfig, GetFieldValidatorDataType,
 } from './types.js';

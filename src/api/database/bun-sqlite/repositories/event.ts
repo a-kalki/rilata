@@ -1,8 +1,8 @@
 import { Changes } from 'bun:sqlite';
 import { EventRepository } from '#api/database/event.repository.ts';
 import { ArPublishEvent } from '#domain/meta-types.ts';
-import { BunSqliteRepository } from '../repository.js';
-import { MigrateRow } from '../types.js';
+import { BunSqliteRepository } from '../repository.ts';
+import { MigrateRow } from '../types.ts';
 
 type EventRecord = {
   id: string,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Constructor } from '../types.js';
+import { Constructor } from '../types.ts';
 
 /** Позволяет через декоратор добавить методы одного класса (mixinConstr)
     добавить в другой класс (targetClass).

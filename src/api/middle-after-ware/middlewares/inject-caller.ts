@@ -1,9 +1,14 @@
-import { JwtVerifyErrors } from '../../../core/jwt/jwt-errors.js';
-import { ResultDTO, RilataRequest } from '../../controller/types.js';
-import { GeneralServerResolver } from '../../server/types.js';
-import { Middleware } from '../middleware.js';
+import { JwtVerifier } from '#api/jwt/jwt-verifier.ts';
+import { ResultDTO } from '#core/contract.ts';
+import { JwtVerifyErrors } from '#core/jwt-errors.ts';
+import { RilataRequest } from '../../controller/types.ts';
+import { ServerMiddleware } from '../server-middleware.ts';
 
-export class InjectCallerMiddleware extends Middleware<GeneralServerResolver> {
+export class InjectCallerMiddleware extends ServerMiddleware {
+  constructor(private jwtVerifier: JwtVerifier<{ userId: string }>) {
+    super();
+  }
+
   process(req: RilataRequest): Response | undefined {
     let rawToken = req.headers.get('Authorization');
     if (!rawToken) {
@@ -14,7 +19,7 @@ export class InjectCallerMiddleware extends Middleware<GeneralServerResolver> {
     }
 
     rawToken = rawToken?.includes('Bearer ') ? rawToken.replace('Bearer ', '') : rawToken;
-    const verifyResult = this.resolver.getJwtVerifier().verifyToken(rawToken);
+    const verifyResult = this.jwtVerifier.verifyToken(rawToken);
     if (verifyResult.isFailure()) {
       const respBody: ResultDTO<JwtVerifyErrors, never> = {
         success: false,

@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { AssertionException } from '../../exeptions.js';
+import { AssertionException } from '../../exeptions.ts';
 
 export type NumberEnum = Record<string | number, string | number>
 export type StringEnum = Record<string, string>

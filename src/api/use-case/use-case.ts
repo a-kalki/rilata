@@ -1,7 +1,5 @@
 import { Logger } from '#api/logger/logger.ts';
-import { Executable, ExecutableInput, Resolvers } from '#api/module/types.ts';
-import { RequestScope } from '#api/types.ts';
-import { BackendErrors } from '#core/errors.ts';
+import { Executable, ExecutableInput, RequestScope, Resolvers } from '#api/module/types.ts';
 import { Result } from '#core/result/types.ts';
 
 /** Обработчик входящих в модуль запросов */
@@ -18,5 +16,5 @@ export abstract class UseCase implements Executable {
 
   abstract execute(
     input: ExecutableInput, reqScope: RequestScope,
-  ): Promise<Result<BackendErrors, unknown>>
+  ): Promise<Result<unknown, unknown>>
 }

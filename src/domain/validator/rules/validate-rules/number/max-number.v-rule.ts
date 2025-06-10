@@ -1,5 +1,5 @@
-import { ValidationRuleAnswer } from '../../types.js';
-import { ValidationRule } from '../../validation-rule.js';
+import { ValidationRuleAnswer } from '../../types.ts';
+import { ValidationRule } from '../../validation-rule.ts';
 
 export class MaxNumberValidationRule extends ValidationRule<'validate', number> {
   requirement = 'Число должно быть меньше или равно {{max}}';

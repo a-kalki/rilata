@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { Logger } from '#core/logger/logger.ts';
+import { Logger } from '#api/logger/logger.ts';
 import { RunMode } from '#core/types.ts';
-import { dtoUtility } from '../dto/dto-utility.ts';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
 import { ApiMethodNames, ApiMethodsParams } from './types.ts';
 
 export class TelegramApi {

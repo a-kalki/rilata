@@ -1,13 +1,13 @@
 import {
   describe, expect, spyOn, test,
 } from 'bun:test';
-import { JwtCreatorImpl } from './jwt-creator.js';
-import { JwtVerifierImpl } from './jwt-verifier.js';
 import { UserId } from '#core/types.ts';
 import { JwtConfig } from '#api/server/types.ts';
 import { JwtDecodeErrors, JwtVerifyErrors } from '#core/jwt-errors.ts';
-import { BaseJwtDecoder } from './jwt-decoder.ts';
 import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
+import { BunJwtDecoder } from './jwt-decoder.ts';
+import { BunJwtVerifier } from './jwt-verifier.ts';
+import { BunJwtCreator } from './jwt-creator.ts';
 
 type TestJwtPayload = {
   userId: UserId,
@@ -22,7 +22,7 @@ const jwtConfig: JwtConfig = {
   jwtRefreshLifetimeAsHour: 24 * 3,
 };
 
-class TestJwtDecoder extends BaseJwtDecoder<TestJwtPayload> {
+class TestJwtDecoder extends BunJwtDecoder<TestJwtPayload> {
   constructor(public expiredTimeShiftAsMs: number) {
     super();
   }
@@ -38,8 +38,8 @@ class TestJwtDecoder extends BaseJwtDecoder<TestJwtPayload> {
 
 const expiredTimeShiftAsMs = 0;
 const backendDecoder = new TestJwtDecoder(expiredTimeShiftAsMs);
-const creator = new JwtCreatorImpl<TestJwtPayload>(jwtSecret, jwtConfig, backendDecoder);
-const verifier = new JwtVerifierImpl<TestJwtPayload>(jwtSecret, jwtConfig, backendDecoder);
+const creator = new BunJwtCreator<TestJwtPayload>(jwtSecret, jwtConfig, backendDecoder);
+const verifier = new BunJwtVerifier<TestJwtPayload>(jwtSecret, jwtConfig, backendDecoder);
 
 const incorectTokenError: JwtDecodeErrors = {
   type: 'app-error',

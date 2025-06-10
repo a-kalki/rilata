@@ -1,5 +1,5 @@
-import { MaybePromise, UuidType } from '../../../core/types.js';
-import { Database } from '../database.js';
+import { MaybePromise, UuidType } from '../../../core/types.ts';
+import { Database } from '../database.ts';
 
 type TransactionId = UuidType;
 

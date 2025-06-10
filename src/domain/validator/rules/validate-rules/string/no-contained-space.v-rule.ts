@@ -1,4 +1,4 @@
-import { RegexDoesntMatchValidationRule } from './regex-doesnt-match-value.field-v-rule.js';
+import { RegexDoesntMatchValidationRule } from './regex-doesnt-match-value.field-v-rule.ts';
 
 export class NoContainedSpaсeValidationRule extends RegexDoesntMatchValidationRule {
   constructor() {

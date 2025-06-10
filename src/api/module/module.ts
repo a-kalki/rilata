@@ -1,14 +1,13 @@
 /* eslint-disable no-use-before-define */
-import { Logger } from '../../core/logger/logger.js';
-import { ModuleConfig, ModuleMeta, ModuleResolver } from './types.ts';
-import { ServerResolver } from '#api/server/types.ts';
-import { RequestScope } from '#core/request-data.ts';
 import { Controller } from '#api/controller/controller.ts';
+import { Logger } from '#api/logger/logger.ts';
+import { ServerResolver } from '#api/server/types.ts';
+import { ModuleConfig, ModuleMeta, ModuleResolver, RequestScope } from './types.ts';
 
 export abstract class Module<META extends ModuleMeta> {
   abstract name: META['name']
 
-  abstract moduleController: Controller;
+  abstract getController(): Controller;
 
   abstract handleRequest(input: unknown, reqScope: RequestScope): Promise<unknown>
 

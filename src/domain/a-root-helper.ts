@@ -1,10 +1,9 @@
 import { ARMeta, ArPublishEvent } from '#domain/meta-types.ts';
-import { dtoUtility } from '#core/utils/index.ts';
-import { AggregateRoot } from './a-root.ts';
-import { Logger } from '#api/logger/logger.ts';
 import { GetArrayType } from '#core/type-functions.ts';
 import { Caller } from '#core/caller.ts';
 import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
+import { AggregateRoot } from './a-root.ts';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
 
 /** Класс помощник агрегата. Забирает себе всю техническую работу агрегата,
     позволяя агрегату сосредоточиться на решении логики предметного уровня. */
@@ -47,6 +46,8 @@ export class AggregateRootHelper<META extends ARMeta> {
       caller,
       requestId,
       aRootName: this.ar.name,
+      aRootId: this.getId(),
+      createdAt: Date.now(),
       aRootVersion: this.getVersion(),
     };
     this.events.push(event);
@@ -62,10 +63,7 @@ export class AggregateRootHelper<META extends ARMeta> {
 
   private validateVersion(): void {
     if (typeof this.version !== 'number' || this.version < 0) {
-      throw this.getLogger().error(
-        `not valid version for aggregate ${this.ar.name}`,
-        { aRootName: this.ar.name, version: this.version },
-      );
+      throw Error(`not valid version for aggregate. arName: ${this.ar.name}; version: ${this.version}`);
     }
   }
 }

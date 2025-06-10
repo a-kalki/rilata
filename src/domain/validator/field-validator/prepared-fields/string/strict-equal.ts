@@ -1,5 +1,5 @@
-import { TextStrictEqualValidationRule } from '../../../rules/validate-rules/string/text-strict-equal.v-rule.js';
-import { LiteralFieldValidator } from '../../literal-field-validator.js';
+import { TextStrictEqualValidationRule } from '../../../rules/validate-rules/string/text-strict-equal.v-rule.ts';
+import { LiteralFieldValidator } from '../../literal-field-validator.ts';
 
 export class StrictEqualFieldValidator<NAME extends string>
   extends LiteralFieldValidator<NAME, true, false, string> {

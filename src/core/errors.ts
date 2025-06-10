@@ -1,10 +1,11 @@
 import { wholeValueValidationErrorKey } from '#domain/validator/constants.ts';
 import { ArrayFieldErrors, FieldErrors } from '#domain/validator/field-validator/types.ts';
+import { JwtVerifyErrors } from './jwt-errors.ts';
 
 export type ValidationError = {
   errors: FieldErrors | ArrayFieldErrors,
   name: 'Validation error',
-  errorType: 'app-error',
+  type: 'app-error',
 }
 
 export const wholeValueValidationError: ValidationError = {
@@ -14,7 +15,7 @@ export const wholeValueValidationError: ValidationError = {
     hint: {},
   }] },
   name: 'Validation error',
-  errorType: 'app-error',
+  type: 'app-error',
 };
 
 export type BadRequestError = {

@@ -5,19 +5,24 @@ import { failure } from '#core/result/failure.ts';
 import { success } from '#core/result/success.ts';
 import { Result } from '#core/result/types.ts';
 import { UnionToTuple } from '#core/tuple-types.ts';
-import { DTO } from '#core/types.ts';
 import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
-import { JwtPayload, JwtType } from '../types.ts';
+import { JwtDto, JwtPayload, JwtType } from '../types.ts';
 
 /** Класс для декодирования JWT токена. */
-export abstract class BaseJwtDecoder<PAYLOAD extends DTO> implements JwtDecoder<PAYLOAD> {
+export class BunJwtDecoder<PAYLOAD extends JwtDto> implements JwtDecoder<PAYLOAD> {
   /** Уменьшает время реального истечения токена на указанное значение.
     Для бэка скорее всего 0, для фронта например 3000 */
-  protected abstract expiredTimeShiftAsMs: number;
+  protected expiredTimeShiftAsMs: number;
+
+  constructor(expiredTimeShiftAsMs = 0) {
+    this.expiredTimeShiftAsMs = expiredTimeShiftAsMs;
+  }
 
   /** Возвращает ответ, что тело payload соответвует требуемому */
-  abstract payloadBodyIsValid(payload: PAYLOAD): boolean
+  payloadBodyIsValid(payload: PAYLOAD): boolean {
+    return true;
+  }
 
   getTokenPayload(rawToken: string): Result<JwtDecodeErrors, PAYLOAD> {
     const decodedPayload = this.decodeJwt(rawToken);
@@ -25,7 +30,7 @@ export abstract class BaseJwtDecoder<PAYLOAD extends DTO> implements JwtDecoder<
 
     if (this.dateIsExpired(decodedPayload)) return this.getError('Token expired error');
 
-    const keys: UnionToTuple<keyof JwtPayload<Record<never, unknown>>> = ['exp', 'typ'];
+    const keys: Array<keyof JwtPayload<JwtDto>> = ['exp', 'typ'];
     const payload = dtoUtility.excludeAttrs(decodedPayload, keys) as unknown as PAYLOAD;
     return this.payloadBodyIsValid(payload) ? success(payload) : this.getError('Not valid token payload error');
   }

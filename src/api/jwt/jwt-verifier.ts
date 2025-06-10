@@ -1,8 +1,8 @@
 import { JwtVerifyErrors } from '#core/jwt-errors.ts';
-import { DTO } from '#core/types.ts';
-import { Result } from '../../core/result/types.js';
+import { Result } from '../../core/result/types.ts';
+import { JwtDto } from './types.ts';
 
-export interface JwtVerifier<PAYLOAD extends DTO> {
+export interface JwtVerifier<PAYLOAD extends JwtDto> {
   /** Проверяет токен на соответствие шифрованию секретом */
   verifyToken(rawToken: string): Result<JwtVerifyErrors, PAYLOAD>
 }

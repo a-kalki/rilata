@@ -16,18 +16,6 @@ module.exports = {
       },
     ],
 
-    // Импорт по иерархии
-    'import/no-restricted-paths': [
-      'error',
-      {
-        zones: [
-          { target: './src/api', from: './src/ui' },
-          { target: './src/ui', from: './src/api' },
-          { target: './src/api-infra', from: './src/ui' },
-          { target: './src/ui', from: './src/api-infra' },
-        ],
-      },
-    ],
 
     // Запрет на импорт по индексу
   'no-restricted-imports': [

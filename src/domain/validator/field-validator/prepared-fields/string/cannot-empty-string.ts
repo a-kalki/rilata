@@ -1,6 +1,6 @@
-import { CannotBeEmptyStringAssertionRule } from '../../../rules/assert-rules/cannot-be-empty-string.v-rule.js';
-import { ValidationRule } from '../../../rules/validation-rule.js';
-import { LiteralFieldValidator } from '../../literal-field-validator.js';
+import { CannotBeEmptyStringAssertionRule } from '../../../rules/assert-rules/cannot-be-empty-string.v-rule.ts';
+import { ValidationRule } from '../../../rules/validation-rule.ts';
+import { LiteralFieldValidator } from '../../literal-field-validator.ts';
 
 export class CannotEmptyStringField<
   NAME extends string, REQ extends boolean

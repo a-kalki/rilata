@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { dtoUtility } from '#core/utils/dto/dto-utility.js';
-import { BunSqliteRepository } from '../repository.js';
-import { MigrateRow } from '../types.js';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { BunSqliteRepository } from '../repository.ts';
+import { MigrateRow } from '../types.ts';
 
 export class MigrationsSqliteRepository extends BunSqliteRepository<'migrations', MigrateRow> {
   tableName = 'migrations' as const;

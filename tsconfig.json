@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
+    "project": "./tsconfig.json",
     "target": "esnext",  // В какую версию js кода должна компилироваться код ts.
     // Хорошая статья как настраивать разрешения путей https://habr.com/ru/articles/738132/
     "module": "nodenext",  // Как должны разрешаться модули js после компиляции кода ts.
     "moduleResolution": "nodenext",  // Стратегия поиска и разрешения модулей (файлов) ts.
     "outDir": "./dist",  // Директория для выходных файлов
+    "rootDir": "./src/",
     "lib": ["esnext", "dom"],  // Включение библиотек для браузера и стандартной библиотеки ES
     "baseUrl": "./",
     "paths": {
-        "#*": ["./src/*"]
+        "#core/*": ["./src/core/*"],
+        "#domain/*": ["./src/domain/*"],
+        "#api/*": ["./src/api/*"],
+        "#ui/*": ["./src/ui/*"]
     },
     "esModuleInterop": true,  // Включение совместимости с CommonJS модулями
     "allowSyntheticDefaultImports": true,  // Разрешение синтетических импортов по умолчанию

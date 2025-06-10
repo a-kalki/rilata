@@ -1,26 +1,24 @@
-import { ServiceResult, UCMeta } from '#api/use-case/types.ts';
-import { DTO } from '#core/index.ts';
-import { dtoUtility } from '#core/utils/dto/dto-utility.js';
-import { JwtDecoder } from '../../core/jwt/jwt-decoder.js';
-import { Logger } from '../../core/logger/logger.js';
-import { failure } from '../../core/result/failure.js';
-import { Result } from '../../core/result/types.js';
-import { BackendApi } from './backend-api.js';
+import { JwtDecoder } from '#api/jwt/jwt-decoder.ts';
+import { JwtDto } from '#api/jwt/types.ts';
+import { Logger } from '#api/logger/logger.ts';
+import { InputMeta } from '#core/app-meta.ts';
+import { BackendResult } from '#core/contract.ts';
+import { BadRequestError } from '#core/errors.ts';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { failure } from '../../core/result/failure.ts';
+import { Result } from '../../core/result/types.ts';
+import { BackendApi } from './backend-api.ts';
 
 export class JwtBackendApi extends BackendApi {
   constructor(
     moduleUrl: string,
-    protected jwtDecoder: JwtDecoder<DTO>,
+    protected jwtDecoder: JwtDecoder<JwtDto>,
     protected logger: Logger,
   ) {
     super(moduleUrl);
   }
 
-  /** делает запрос в бэкенд и возвращает результат.
-    @param {Object} requestDod - объект типа RequestDod.
-    @param {string} jwtToken - jwt токен авторизации (рефреш).
-      Для неавторизованного запроса передать пустую строку. */
-  async request<M extends UCMeta>(requestDod: M['in'], jwtToken: string): Promise<ServiceResult<M>> {
+  async request(requestDod: InputMeta, jwtToken: string): Promise<BackendResult> {
     if (jwtToken && this.jwtDecoder.dateIsExpired(jwtToken)) {
       return this.jwtDecoder.getError('Token expired error');
     }
@@ -37,8 +35,11 @@ export class JwtBackendApi extends BackendApi {
     );
   }
 
-  protected notResultDto(value: unknown): Result<BadRequestError<Locale<'Bad request'>>, never> {
+  protected notResultDto(value: unknown): Result<BadRequestError, never> {
     this.logger.error('response value is not resultDto', value);
-    return failure(dodUtility.getDomainError('Bad request', 'Ошибка сети', {}));
+    return failure({
+      name: 'Bad request error',
+      type: 'app-error',
+    });
   }
 }

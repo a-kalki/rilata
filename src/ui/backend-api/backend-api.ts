@@ -14,7 +14,7 @@ export class BackendApi {
   async request<META extends UCMeta>(
     requestDod: META['in'],
     ...args: unknown[]
-  ): Promise<BackendResult<UCMeta>> {
+  ): Promise<BackendResult> {
     try {
       const backendResult = await fetch(this.moduleUrl, this.getRequestBody(requestDod));
       const resultDto = await backendResult.json();
@@ -46,7 +46,7 @@ export class BackendApi {
     };
   }
 
-  protected resultDtoToResult<M extends UCMeta>(resultDto: BackendResultDTO<M>): BackendResult<M> {
+  protected resultDtoToResult(resultDto: BackendResultDTO): BackendResult {
     if (resultDto.success === false) {
       return failure(resultDto.payload);
     }

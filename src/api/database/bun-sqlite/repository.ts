@@ -1,10 +1,10 @@
-import { Changes, SQLQueryBindings } from 'bun:sqlite';
-import { Logger } from '#core/logger/logger.js';
-import { dtoUtility } from '#core/utils/dto/dto-utility.js';
-import { BunSqliteDatabase } from './database.js';
-import { MigrateRow, RepositoryRecord } from './types.js';
-import { DatabaseServiceStatus } from '#api/database/types.js';
-import { Repository } from '#api/database/repository.js';
+import { SQLQueryBindings } from 'bun:sqlite';
+import { Logger } from '#api/logger/logger.ts';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { BunSqliteDatabase } from './database.ts';
+import { MigrateRow, RepositoryRecord } from './types.ts';
+import { Repository } from '../repository.ts';
+import { DatabaseServiceStatus } from '../types.ts';
 
 export abstract class BunSqliteRepository<
   TN extends string, R extends RepositoryRecord
@@ -83,7 +83,7 @@ export abstract class BunSqliteRepository<
 
   /** Возвращает объект приведенный для привязки */
   protected bindKeys(obj: Record<string, unknown>): SQLQueryBindings {
-    return dtoUtility.editKeys(obj, (k) => `$${k}`);
+    return dtoUtility.editKeys(obj, (k) => `$${k}`) as SQLQueryBindings;
   }
 
   protected isObject(value: unknown): boolean {

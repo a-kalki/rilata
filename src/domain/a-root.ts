@@ -1,7 +1,8 @@
-import { dtoUtility } from '#core/utils/index.ts';
+import { AssertionException } from '#core/exeptions.ts';
+import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
 import { ARMeta } from '#domain/meta-types.ts';
 import { AggregateRootHelper } from './a-root-helper.ts';
-import { DtoFieldValidator } from './validator/index.ts';
+import { DtoFieldValidator } from './validator/field-validator/dto-field-validator.ts';
 
 /** Корневой объект - т.е имеет уникальную глобальную идентификацию */
 export abstract class AggregateRoot<META extends ARMeta> {
@@ -44,10 +45,12 @@ export abstract class AggregateRoot<META extends ARMeta> {
   ): void {
     const invariantsResult = invariantsValidator.validate(attrs);
     if (invariantsResult.isFailure()) {
-      throw this.getHelper().getLogger().error(`не соблюдены инварианты агрегата ${this.constructor.name}`, {
-        modelAttrs: attrs,
-        validatorValue: invariantsResult.value,
+      const err = `не соблюдены инварианты агрегата ${this.constructor.name}`;
+      const body = JSON.stringify({
+        attrs: this.getAttrs(),
+        validationResult: invariantsResult.value,
       });
+      throw new AssertionException(`${err}\n\n${body}`);
     }
   }
 }

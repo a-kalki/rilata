@@ -1,4 +1,4 @@
-import { LoggerModes } from './logger-modes.js';
+import { LoggerModes } from './logger-modes.ts';
 
 export interface Logger {
   /** Различная информация о работе приложения */

@@ -1,5 +1,5 @@
-import { ValidationRule } from '../validation-rule.js';
-import { TypeOrAssertRuleAnswer } from '../types.js';
+import { ValidationRule } from '../validation-rule.ts';
+import { TypeOrAssertRuleAnswer } from '../types.ts';
 
 export class CannotBeInfinityRule extends ValidationRule<'assert', unknown> {
   requirement = 'Значение не может быть Infinity или -Infinity';

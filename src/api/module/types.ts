@@ -1,17 +1,14 @@
 import { Database } from '#api/database/database.ts';
-import { Logger } from '#api/logger/logger.ts';
 import { ServerResolver } from '#api/server/types.ts';
-import { RequestScope } from '#api/types.ts';
-import { BackendErrors } from '#core/errors.ts';
+import { Caller } from '#core/caller.ts';
 import { Result } from '#core/result/types.ts';
 import { DTO } from '#core/types.ts';
 
 export type Urls = string[] | RegExp[]; // example: ['/api/company-module/']
 
 export type ModuleResolver = {
-  logger: Logger,
   moduleUrls: Urls,
-  db?: Database,
+  db: Database,
 }
 
 export type Resolvers = {
@@ -28,6 +25,12 @@ export type ModuleMeta = {
 
 export type ModuleConfig = DTO;
 
+export type RequestScope = {
+  caller: Caller,
+  unitOfWorkId?: string,
+  databaseErrorRestartAttempts?: number,
+}
+
 export type ExecutableInput = {
   name: string,
   attrs: DTO,
@@ -39,5 +42,5 @@ export type Executable = {
 
   execute(
     input: ExecutableInput, reqScope: RequestScope,
-  ): Promise<Result<BackendErrors, unknown>>
+  ): Promise<Result<unknown, unknown>>
 }

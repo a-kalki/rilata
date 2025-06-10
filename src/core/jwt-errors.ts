@@ -22,9 +22,9 @@ export type JwtDecodeErrors =
   | TokenExpiredError
 
 type JwtVerifyError = {
+    name: 'Jwt verify error',
     description?: 'Генерируется когда процесс верификации токена прошел неудачно',
     type: 'app-error',
-    name: 'Jwt verify error',
 };
 
 export type JwtVerifyErrors = JwtDecodeErrors | JwtVerifyError;

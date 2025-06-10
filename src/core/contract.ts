@@ -1,6 +1,7 @@
-import { UCMeta } from './app-meta.ts';
-import { BackendErrors } from './errors.ts';
+import { AppErrorMeta, UCMeta } from './app-meta.ts';
+import { BackendErrors, UCBaseErrors } from './errors.ts';
 import { Result } from './result/types.ts';
+import { GetArrayType } from './type-functions.ts';
 
 export type ResultDTO<FAIL, SUCCESS> = {
   success: false,
@@ -12,6 +13,12 @@ export type ResultDTO<FAIL, SUCCESS> = {
   payload: SUCCESS,
 };
 
-export type BackendResult<P extends UCMeta> = Result<P['errors'] | BackendErrors, P['success']>
+type AllAppErrors<ERRS extends AppErrorMeta> = {
+  errors: ERRS
+} // тип который следит чтобы были только Apperror типы
 
-export type BackendResultDTO<P extends UCMeta> = ResultDTO<P['errors'] | BackendErrors, P['success']>
+export type UcResult<M extends UCMeta> = Result <UCBaseErrors | GetArrayType<M['errors']>, M['success']>
+
+export type BackendResult = Result<AllAppErrors<BackendErrors>['errors'], unknown>
+
+export type BackendResultDTO = ResultDTO<AllAppErrors<BackendErrors>['errors'], unknown>

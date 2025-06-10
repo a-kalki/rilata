@@ -1,7 +1,7 @@
 import { join } from 'node:path';
-import { responseUtility } from '../../core/utils/response/response-utility.js';
-import { Controller } from './controller.js';
-import { ResponseFileOptions } from '#core/utils/response/types.ts';
+import { ResponseFileOptions } from '#api/utils/response/types.ts';
+import { responseUtility } from '#api/utils/response/response-utility.ts';
+import { Controller } from './controller.ts';
 
 export abstract class FileController implements Controller {
   constructor(protected projectPath: string) {}

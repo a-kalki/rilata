@@ -1,9 +1,8 @@
 import { JwtDecodeErrors } from '#core/jwt-errors.ts';
-import { DTO } from '#core/types.ts';
-import { Result } from '../../core/result/types.js';
-import { JwtPayload, JwtType } from './types.js';
+import { Result } from '../../core/result/types.ts';
+import { JwtDto, JwtPayload, JwtType } from './types.ts';
 
-export interface JwtDecoder<PAYLOAD extends DTO> {
+export interface JwtDecoder<PAYLOAD extends JwtDto> {
   /** Декодировать токен и получить его payload.
     Не проверяется валидность (соответствие секретному шифрованию). */
   getTokenPayload(rawToken: string): Result<JwtDecodeErrors, PAYLOAD>;

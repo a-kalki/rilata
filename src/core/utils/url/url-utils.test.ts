@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { urlUtils } from './url-utils.js';
+import { urlUtils } from './url-utils.ts';
 
 describe('encode to base64Url and decode from base64Url cases', () => {
   const sut = urlUtils;

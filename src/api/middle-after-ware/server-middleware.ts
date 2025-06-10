@@ -1,9 +1,6 @@
-import { RilataRequest } from '../controller/types.js';
-import { ServerResolver } from '../server/types.js';
+import { RilataRequest } from '../controller/types.ts';
 
 export abstract class ServerMiddleware {
-  constructor(protected resolver: ServerResolver) {}
-
   /**
     Предварительная обработка всех запросов.
     Если вернет Response, то ответ получен и запрос дальше не пойдет.

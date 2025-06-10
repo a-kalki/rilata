@@ -1,30 +1,32 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
-import { failure } from '../../core/result/failure.js';
-import { Module } from './module.js';
-import { Result } from '#core/result/types.js';
-import { WebModuleController } from '#api/controller/web.m-controller.js';
-import { success } from '#core/result/success.js';
-import { Executable, ExecutableInput, ModuleConfig, ModuleMeta } from './types.ts';
-import { BackendBaseErrors, BadRequestError, InternalError, InvalidInputNameError } from '#api/use-case/errors.ts';
-import { RequestScope } from '#core/index.ts';
+import { WebModuleController } from '#api/controller/web.m-controller.ts';
+import { BackendResult } from '#core/contract.ts';
+import { BadRequestError, InternalError, InvalidInputNameError } from '#core/errors.ts';
+import { success } from '#core/result/success.ts';
+import { Result } from '#core/result/types.ts';
+import { failure } from '../../core/result/failure.ts';
+import { Module } from './module.ts';
+import { Executable, ExecutableInput, ModuleConfig, ModuleMeta, RequestScope } from './types.ts';
 
 export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
+  protected controller: WebModuleController;
+
   constructor(
     protected config: ModuleConfig,
     protected resolvers: META['resolvers'],
-    public moduleController: WebModuleController,
     protected executable: Executable[],
   ) {
     super(config, resolvers);
+    this.controller = new WebModuleController(this, resolvers.moduleResolver.moduleUrls);
   }
 
   /** Обеспачиват выполнение сервиса. */
   async handleRequest(
     input: unknown,
     reqScope: RequestScope,
-  ): Promise<Result<BackendBaseErrors, unknown>> {
+  ): Promise<BackendResult> {
     try {
       const checkResult = this.checkInputData(input);
       if (checkResult.isFailure()) {
@@ -35,10 +37,14 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
       if (!executable) {
         return this.notFindedServiceError();
       }
-      return executable.execute(inputDto, reqScope);
+      return executable.execute(inputDto, reqScope) as unknown as BackendResult;
     } catch (e) {
       return this.catchRunModeError(input, reqScope, e as Error);
     }
+  }
+
+  getController(): WebModuleController {
+    return this.controller;
   }
 
   protected getExecutable(inputName: string): Executable | undefined {

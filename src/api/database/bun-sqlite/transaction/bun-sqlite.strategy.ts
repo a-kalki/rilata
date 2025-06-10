@@ -1,6 +1,8 @@
+import { Logger } from '#api/logger/logger.ts';
+import { RequestScope } from '#api/module/types.ts';
 import { TransactionStrategy } from '#api/use-case/transaction-strategy/strategy.ts';
-import { Logger, MaybePromise, RequestScope } from '#core/index.ts';
-import { BunSqliteDatabase } from '../database.js';
+import { MaybePromise } from '#core/types.ts';
+import { BunSqliteDatabase } from '../database.ts';
 
 export class BunSqliteStrategy extends TransactionStrategy {
   constructor(protected db: BunSqliteDatabase, logger: Logger) {

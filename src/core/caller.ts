@@ -9,6 +9,11 @@ export type AuthUser = {
   userId: IdType,
 };
 
+export type ModeratorUser = {
+  type: 'ModeratorUser',
+  userId: IdType,
+};
+
 export type Caller = AnonymousUser | AuthUser;
 
 export type CallerType = Caller['type'];

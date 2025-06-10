@@ -1,6 +1,6 @@
-import { getEnvLogMode } from '#core/logger/logger-modes.js';
+import { RunMode } from '#core/types.ts';
 import { BunServerConfig } from './types.ts';
-import { JwtConfig, RunMode, ServerConfig } from '../types.js';
+import { JwtConfig } from '../types.ts';
 
 export const defaultServerConfig: BunServerConfig = {
   localHost: 'localhost',
@@ -11,8 +11,8 @@ export const defaultServerConfig: BunServerConfig = {
 
 export const defaultJwtConfig: JwtConfig = {
   algorithm: 'HS256',
-  jwtLifetimeAsHour: 24,
-  jwtRefreshLifetimeAsHour: 24 * 3,
+  jwtLifetimeAsHour: 24 * 2,
+  jwtRefreshLifetimeAsHour: 2,
 };
 
 export const defaultPublicPort = 80;
@@ -21,8 +21,10 @@ function throwErr(errStr: string): never {
   throw Error(errStr);
 }
 
-export function getJwtSecretKey(key?: string): string {
-  return process.env.JWT_SECRET ?? key ?? throwErr('not found jwt secret key in env.JWT_SECRET');
+export function getJwtSecretKey(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw Error('not found jwt secret key in env.JWT_SECRET');
+  return secret;
 }
 
 export function getPublicHost(host?: string): string {
@@ -55,20 +57,19 @@ export function getBotLoggerManagerIds(): string[] {
   return ids.split(',').map((id) => id.trim());
 }
 
-export function getServerConfig(config?: Partial<ServerConfig>): ServerConfig {
+export function getServerConfig(config?: Partial<BunServerConfig>): BunServerConfig {
   let envPort: number | undefined = Number(process.env.LOCAL_PORT);
   envPort = isNaN(envPort) ? undefined : envPort;
   return {
     localPort: envPort ?? config?.localPort ?? defaultServerConfig.localPort,
     localHost: process.env.LOCAL_HOST ?? config?.localHost ?? defaultServerConfig.localHost,
-    loggerModes: getEnvLogMode() ?? config?.loggerModes ?? defaultServerConfig.loggerModes,
   };
 }
 
 function getEnvRunMode(): RunMode | undefined {
   const mode = process.env.NODE_ENV;
-  if (mode === 'prod' || mode === 'production') return 'prod';
-  if (mode === 'dev' || mode === 'development') return 'dev';
+  if (mode === 'prod' || mode === 'production') return 'production';
+  if (mode === 'dev' || mode === 'development') return 'development';
   if (mode === 'test') return 'test';
   return undefined;
 

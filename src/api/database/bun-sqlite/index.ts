@@ -1,11 +1,10 @@
-export * from './db-manager.js';
-export * from './database.js';
-export * from './repository.js';
+export { BunSqliteDatabase } from './database.ts';
+export { BunSqliteDatabaseManager } from './db-manager.ts';
+export { BunSqliteRepository } from './repository.ts';
 export type {
-  MigrateRow, BunRepoCtor, MigratinsRecord, BunSqliteTransactionData,
-  BotDialogueContextRecord,
+  MigrateRow, MigratingsRecord as MigratinsRecord, BunSqliteTransactionData,
 } from './types.js';
-export * from './repositories/event.js';
-export * from './repositories/migrations.js';
-export * from './repositories/bot-dialogue.js';
-export * from './transaction/bun-sqlite.strategy.js';
+
+export { EventRepositorySqlite } from './repositories/event.ts';
+export { MigrationsSqliteRepository } from './repositories/migrations.ts';
+export { BunSqliteStrategy } from './transaction/bun-sqlite.strategy.ts';

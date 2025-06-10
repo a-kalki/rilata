@@ -1,6 +1,4 @@
-import { UuidType } from '#core/types.js';
-import { BunSqliteDatabase } from './database.js';
-import { BunSqliteRepository } from './repository.js';
+import { UuidType } from '#core/types.ts';
 
 export type MigrateRow = {
   id: UuidType,
@@ -8,7 +6,7 @@ export type MigrateRow = {
   sql: string,
 };
 
-export type MigratinsRecord = MigrateRow & {
+export type MigratingsRecord = MigrateRow & {
   tableName: string,
   migratedAt: number,
 }
@@ -21,16 +19,3 @@ export type BunSqliteTransactionData = {
 }
 
 export type RepositoryRecord = Record<string, string | number | null>
-
-export type BunRepoCtor = new (db: BunSqliteDatabase) => BunSqliteRepository<
-  string,
-  RepositoryRecord
->;
-
-export type BotDialogueContextRecord = {
-  telegramId: string,
-  isActive: 1 | 0,
-  stateName: string,
-  lastUpdate: number,
-  payload: string,
-}

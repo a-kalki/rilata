@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
-import { DTO, failure, success } from '#core/index.ts';
-import { FieldValidator } from './field-validator.js';
+import { failure } from '#core/result/failure.ts';
+import { success } from '#core/result/success.ts';
+import { DTO } from '#core/types.ts';
+import { FieldValidator } from './field-validator.ts';
 import {
   ArrayFieldErrors, FieldErrors, FullFieldResult, GetArrayConfig,
   GetFieldValidatorDataType, RuleErrors, ValidatorMap,
@@ -37,6 +39,13 @@ export class DtoFieldValidator<
     const typeAnswer = this.validateByRules(value, this.getTypeCheckRules());
     if (typeAnswer.isValidValue === false) return this.getFailResult(typeAnswer.errors);
 
+    const errors = this.validateDtoMap(value as Record<string, unknown>);
+    return Object.keys(errors).length > 0
+      ? super.getFailResult(errors)
+      : success(undefined);
+  }
+
+  protected validateDtoMap(value: Record<string, unknown>): FieldErrors | ArrayFieldErrors {
     let errors: FieldErrors | ArrayFieldErrors = {};
     Object.entries(this.dtoMap).forEach(([dtoAttrName, validator]) => {
       if (validator instanceof FieldValidator) {
@@ -48,10 +57,7 @@ export class DtoFieldValidator<
         }
       }
     });
-
-    return Object.keys(errors).length > 0
-      ? super.getFailResult(errors)
-      : success(undefined);
+    return errors;
   }
 
   protected override getFailResult(errors: FieldErrors | RuleErrors): FullFieldResult {
