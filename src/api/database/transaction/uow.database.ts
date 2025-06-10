@@ -1,13 +1,12 @@
-import { UuidType } from '../../../core/types.js';
+import { MaybePromise, UuidType } from '../../../core/types.js';
 import { Database } from '../database.js';
-import { Asyncable } from '../types.js';
 
 type TransactionId = UuidType;
 
-export interface UnitOfWorkDatabase<ASYNC extends boolean> extends Database {
-  startTransaction(): Asyncable<ASYNC, TransactionId>
+export interface UnitOfWorkDatabase extends Database {
+  startTransaction(): MaybePromise<TransactionId>
 
-  commit(transactionId: TransactionId): Asyncable<ASYNC, void>
+  commit(transactionId: TransactionId): Promise<void>
 
-  rollback(transactionId: TransactionId): Asyncable<ASYNC, void>
+  rollback(transactionId: TransactionId): Promise<void>
 }

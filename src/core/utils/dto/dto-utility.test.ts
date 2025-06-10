@@ -789,17 +789,17 @@ describe('dtoUtility class', () => {
   describe('Метод getUniqueKeys', () => {
     test('одинаковые ключи', () => {
       const input = [{ a: 5, b: 5 }, { a: 7 }];
-      expect(dtoUtility.getUniqueKeys(input)).toEqual(['a', 'b']);
+      expect(dtoUtility.getKeys(input)).toEqual(['a', 'b']);
     });
 
     test('дополнительный ключ', () => {
       const input = [{ a: 5, b: 5 }, { a: 7, c: 7 }, { a: 8, b: 6 }];
-      expect(dtoUtility.getUniqueKeys(input)).toEqual(['a', 'b', 'c']);
+      expect(dtoUtility.getKeys(input)).toEqual(['a', 'b', 'c']);
     });
 
     test('множество разных ключей', () => {
       const input = [{ a: 5, b: 5 }, { a: 7, c: 7 }, { d: 8, b: 6 }];
-      expect(dtoUtility.getUniqueKeys(input)).toEqual(['a', 'b', 'c', 'd']);
+      expect(dtoUtility.getKeys(input)).toEqual(['a', 'b', 'c', 'd']);
     });
   });
 

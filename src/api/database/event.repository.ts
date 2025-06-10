@@ -1,24 +1,12 @@
-import { UuidType } from '../../core/types.js';
-import { GeneralArParams, GeneralEventDod } from '../../domain/domain-data/domain-types.js';
-import { GeneralModuleResolver } from '../module/types.js';
-import { Repositoriable } from '../resolve/repositoriable.js';
-import { Asyncable } from './types.js';
+import { ArPublishEvent } from '#domain/meta-types.ts';
+import { MaybePromise, UuidType } from '../../core/types.js';
 
-export interface EventRepository<ASYNC extends boolean> {
-  init(resovler: GeneralModuleResolver): void
+export interface EventRepository {
+  addEvents(event: ArPublishEvent[]): MaybePromise<unknown>
 
-  addEvents(event: GeneralEventDod[]): Asyncable<ASYNC, unknown>
+  findEvent(id: UuidType): MaybePromise<unknown>
 
-  findEvent(id: UuidType): Asyncable<ASYNC, GeneralEventDod | undefined>
+  isExist(id: UuidType): MaybePromise<boolean>
 
-  isExist(id: UuidType): Asyncable<ASYNC, boolean>
-
-  // eslint-disable-next-line max-len
-  getAggregateEvents<A extends GeneralArParams>(aRootId: UuidType): Asyncable<ASYNC, A['events']>
+  getAggregateEvents(aRootId: UuidType): MaybePromise<ArPublishEvent[]>
 }
-
-export const EventRepository = {
-  instance<ASYNC extends boolean>(resolver: Repositoriable): EventRepository<ASYNC> {
-    return resolver.resolveRepo(EventRepository) as EventRepository<ASYNC>;
-  },
-};

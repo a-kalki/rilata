@@ -9,13 +9,13 @@ export interface Repository<
 
   isCreated(): MaybePromise<boolean>
 
-  create(): MaybePromise<void>
+  create(): MaybePromise<unknown>
 
   getMigrateStatus(): MaybePromise<DatabaseServiceStatus | 'notRequired'>
 
-  migrate(): MaybePromise<void>
+  migrate(): MaybePromise<unknown>
 
   clear(): MaybePromise<void>
 
-  addBatch(records: REC[]): MaybePromise<void>
+  addBatch(records: REC[]): MaybePromise<unknown>
 }

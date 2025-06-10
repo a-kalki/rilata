@@ -1,13 +1,10 @@
+import { ServiceResult, UCMeta } from '#api/use-case/types.ts';
+import { DTO } from '#core/index.ts';
 import { dtoUtility } from '#core/utils/dto/dto-utility.js';
-import { BadRequestError } from '../../api/service/error-types.js';
-import { FullServiceResult, GeneralWebService, GetServiceParams } from '../../api/service/types.js';
 import { JwtDecoder } from '../../core/jwt/jwt-decoder.js';
 import { Logger } from '../../core/logger/logger.js';
 import { failure } from '../../core/result/failure.js';
 import { Result } from '../../core/result/types.js';
-import { dodUtility } from '../../core/utils/dod/dod-utility.js';
-import { DTO } from '../../domain/dto.js';
-import { Locale } from '../../domain/locale.js';
 import { BackendApi } from './backend-api.js';
 
 export class JwtBackendApi extends BackendApi {
@@ -23,12 +20,9 @@ export class JwtBackendApi extends BackendApi {
     @param {Object} requestDod - объект типа RequestDod.
     @param {string} jwtToken - jwt токен авторизации (рефреш).
       Для неавторизованного запроса передать пустую строку. */
-  async request<SERVICE extends GeneralWebService>(
-    requestDod: GetServiceParams<SERVICE>['input'],
-    jwtToken: string,
-  ): Promise<FullServiceResult<SERVICE>> {
+  async request<M extends UCMeta>(requestDod: M['in'], jwtToken: string): Promise<ServiceResult<M>> {
     if (jwtToken && this.jwtDecoder.dateIsExpired(jwtToken)) {
-      return this.jwtDecoder.getError('TokenExpiredError');
+      return this.jwtDecoder.getError('Token expired error');
     }
 
     return super.request(requestDod);

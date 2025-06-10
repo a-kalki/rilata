@@ -1,3 +1,5 @@
+const importHierarchyRules = require('./eslint-import-hierarchy.cjs');
+
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -6,8 +8,11 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint/eslint-plugin',
-    // 'namespace-fixtures',
+    ...importHierarchyRules.plugins,
   ],
+  settings: {
+    ...importHierarchyRules.settings,
+  },
   extends: [
     'airbnb-base',
     'plugin:@typescript-eslint/recommended',
@@ -15,6 +20,8 @@ module.exports = {
   root: true,
   ignorePatterns: ['.eslintrc.ts', '*.js', 'dist/*'],
   rules: {
+    ...importHierarchyRules.rules,
+
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',

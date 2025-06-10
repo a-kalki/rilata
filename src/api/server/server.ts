@@ -1,12 +1,13 @@
+import { ModuleMeta } from '#api/module/types.ts';
 import { Logger } from '../../core/logger/logger.js';
 import { Module } from '../module/module.js';
-import { ServerConfig, ServerResolveRRR } from './types.ts';
+import { ServerConfig, ServerMeta } from './types.ts';
 
-export abstract class Server<R extends ServerResolveRRR> {
+export abstract class Server<R extends ServerMeta> {
   constructor(
     protected config: ServerConfig,
-    protected resolver: R,
-    protected modules: Module[],
+    protected resolver: R['resolver'],
+    protected modules: Module<ModuleMeta>[],
   ) {}
 
   protected abstract startServer(): void
@@ -40,10 +41,10 @@ export abstract class Server<R extends ServerResolveRRR> {
     return process.cwd(); // path/to/project
   }
 
-  getModule<M extends Module>(name: M['moduleName']): M {
-    const module = this.modules.find((m) => m.moduleName === name);
+  getModule<M extends Module<ModuleMeta>>(name: M['name']): M {
+    const module = this.modules.find((m) => m.name === name);
     if (module === undefined) {
-      throw this.logger.error(`not finded module by name: ${name}`, this.modules);
+      this.getLogger().error(`not finded module by name: ${name}`, this.modules);
     }
     return module as M;
   }
@@ -54,23 +55,6 @@ export abstract class Server<R extends ServerResolveRRR> {
 
   getLogger(): Logger {
     return this.resolver.logger;
-  }
-
-  getPublicHttpUrl(): string {
-    const port = this.getPublicPort() === 80 ? '' : `:${this.getPublicPort()}`;
-    return `http://${this.getPublicHost()}${port}`;
-  }
-
-  getPublicHttspUrl(): string {
-    const port = this.getPublicPort() === 443 ? '' : `:${this.getPublicPort()}`;
-    return `https://${this.getPublicHost()}${port}`;
-  }
-
-  getPublicUrl(): string {
-    const { httpsPorts } = this.resolves;
-    return httpsPorts.includes(this.getPublicPort())
-      ? this.getPublicHttspUrl()
-      : this.getPublicHttpUrl();
   }
 
   protected showServerStartedMessage(): void {

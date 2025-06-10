@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DTO } from '../../domain/dto.js';
+import { DTO } from '#core/types.ts';
 import { Database } from './database.ts';
 import { Repository } from './repository.ts';
-
-export type BusPayloadAsJson = string;
-
-export type Asyncable<ASYNC extends boolean, T> = ASYNC extends true ? Promise<T> : T;
 
 type GetRepoRecord<R extends Repository<string, DTO>> =
   R extends Repository<infer _, infer REC> ? REC : never

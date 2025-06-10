@@ -1,14 +1,13 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-continue */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DTO } from '../../../domain/dto.js';
 import { AssertionException } from '../../exeptions.js';
 import {
   DeepPartial,
   ExcludeDeepDtoAttrs, ExcludeDtoAttrs, ExtendDtoAttrs,
   GetDomainAttrsDotKeys, UnknownDto, ManyDtoKeys, ReplaceDtoAttrs,
 } from '../../type-functions.js';
-import { DeepAttr } from '../../types.js';
+import { DeepAttr, DTO } from '../../types.js';
 
 class DtoUtility {
   /** Возвращает копию объекта T, с исключенными атрибутами K. */
@@ -138,7 +137,7 @@ class DtoUtility {
 
       attributePathAsArray.forEach((levelAttr: string, idx: number): void => {
         if (idx !== attributePathAsArray.length - 1) {
-          dto = dto[levelAttr];
+          dto = dto[levelAttr] as DTO;
         }
       });
 
@@ -194,7 +193,7 @@ class DtoUtility {
       attributePathAsArray.forEach((levelAttr: string, idx: number): void => {
         if (idx !== attributePathAsArray.length) {
           if (!(levelAttr in resultStorage)) throw new TypeError();
-          resultStorage = resultStorage[levelAttr];
+          resultStorage = resultStorage[levelAttr] as DTO;
         }
       });
       return resultStorage as T;
@@ -211,8 +210,8 @@ class DtoUtility {
     }
   }
 
-  /** Возвращает массив уникальных ключей объектов */
-  getUniqueKeys(objects: DTO[]): string[] {
+  /** Возвращает ключи всех объектов */
+  getKeys(objects: DTO[]): string[] {
     const set = new Set<string>();
     objects.forEach((obj) => Object.keys(obj).forEach((key) => set.add(key)));
     return Array.from(set);

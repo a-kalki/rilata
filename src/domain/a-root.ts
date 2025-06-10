@@ -12,14 +12,13 @@ export abstract class AggregateRoot<META extends ARMeta> {
 
   abstract name: META['name'];
 
-  abstract invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>;
-
   constructor(
     protected attrs: META['attrs'],
-    version: number,
+    protected version: number,
+    protected invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>,
   ) {
     this.helper = new AggregateRootHelper<META>(attrs, version, this);
-    this.checkInveriants(attrs);
+    this.checkInveriants(invariantsValidator, attrs);
   }
 
   getId(): string {
@@ -40,9 +39,10 @@ export abstract class AggregateRoot<META extends ARMeta> {
   }
 
   protected checkInveriants(
+    invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>,
     attrs: META['attrs'],
   ): void {
-    const invariantsResult = this.invariantsValidator.validate(attrs);
+    const invariantsResult = invariantsValidator.validate(attrs);
     if (invariantsResult.isFailure()) {
       throw this.getHelper().getLogger().error(`не соблюдены инварианты агрегата ${this.constructor.name}`, {
         modelAttrs: attrs,

@@ -4,12 +4,11 @@ import { success } from '#core/result/success.ts';
 import { Result } from '#core/result/types.ts';
 import { MaybePromise } from '#core/types.ts';
 import { DtoFieldValidator } from '#domain/validator/field-validator/dto-field-validator.ts';
-import { ValidationError } from '../app-error-types.ts';
-import { authPermissionDeniedError, permissionDeniedError, wholeValueValidationError } from '../errors.ts';
-import { QueryUCMeta, RunDomainResult, ServiceResult } from '../types.js';
-import { Service } from '../uc.ts';
+import { PermissionDeniedError, ValidationError, wholeValueValidationError } from '../errors.ts';
+import { UCMeta, RunDomainResult, ServiceResult } from '../types.js';
+import { UseCase } from '../use-case.ts';
 
-export abstract class QueryService<META extends QueryUCMeta> extends Service<META> {
+export abstract class QueryUseCase<META extends UCMeta> extends UseCase {
   protected supportAnonimousCall = false;
 
   protected abstract validator: DtoFieldValidator<
@@ -35,17 +34,20 @@ export abstract class QueryService<META extends QueryUCMeta> extends Service<MET
   protected runInitialChecks(
     input: META['in'],
     reqScope: RequestScope,
-  ): Result<ValidationError | typeof permissionDeniedError, undefined> {
+  ): Result<ValidationError | PermissionDeniedError, undefined> {
     const checkCallerResult = this.checkCallerPermission(reqScope);
     if (checkCallerResult.isFailure()) return checkCallerResult;
     return this.checkValidations(input);
   }
 
   // eslint-disable-next-line max-len
-  protected checkCallerPermission(reqScope: RequestScope): Result<typeof authPermissionDeniedError, undefined> {
+  protected checkCallerPermission(reqScope: RequestScope): Result<PermissionDeniedError, undefined> {
     if (this.supportAnonimousCall) return success(undefined);
     if (reqScope.caller.type !== 'AnonymousUser') return success(undefined);
-    return failure(authPermissionDeniedError);
+    return failure({
+      name: 'Permission denied error',
+      type: 'app-error',
+    });
   }
 
   protected checkValidations(

@@ -1,45 +1,34 @@
 /* eslint-disable no-use-before-define */
 import { Logger } from '../../core/logger/logger.js';
-import { Service } from '../service/uc.js;
-import { ServerResolveRRR } from '../server/types.js';
-import { Controller } from '#api/controller/controller.js';
-import { ModuleController } from '#api/controller/m-controller.js';
-import { ModuleConfig, ModuleResolveRRRR, Resolvers } from './types.ts';
-import { Server } from '#api/base.index.ts';
+import { ModuleConfig, ModuleMeta, ModuleResolver } from './types.ts';
+import { ServerResolver } from '#api/server/types.ts';
+import { RequestScope } from '#core/request-data.ts';
+import { Controller } from '#api/controller/controller.ts';
 
-export abstract class Module<R extends Resolvers> {
-  protected abstract moduleController: ModuleController;
+export abstract class Module<META extends ModuleMeta> {
+  abstract name: META['name']
 
-  abstract executeService(...args: unknown[]): Promise<unknown>
+  abstract moduleController: Controller;
 
-  abstract getServices(): Service<R>[]
+  abstract handleRequest(input: unknown, reqScope: RequestScope): Promise<unknown>
 
   constructor(
     protected config: ModuleConfig,
-    protected resolver: ModuleResolveRRRR,
-    protected server: Server,
-  ): void {
-    this.logger.info(`  | resolver for module ${this.moduleName} inited successfully`);
-
-    this.getModuleController().init(resolver);
-  }
-
-  getModuleName(): string {
-    return this.config.moduleName;
-  }
+    protected resolvers: META['resolvers'],
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   stop(): void {}
 
-  getModuleController(): Controller<GeneralModuleResolver> {
-    return this.moduleController;
+  getServerResolver(): ServerResolver {
+    return this.resolvers.serverResolver;
   }
 
-  getModuleResolver(): GeneralModuleResolver {
-    return this.resolver;
+  getModuleResolver(): ModuleResolver {
+    return this.resolvers.moduleResolver;
   }
 
   getLogger(): Logger {
-    return this.serverResolver.logger;
+    return this.resolvers.serverResolver.logger;
   }
 }

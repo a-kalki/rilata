@@ -1,33 +1,70 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Преобразует кортеж в объект с числовыми ключами
- * Пример: ['a', 'b'] => {0: 'a', 1: 'b'}
+ * Преобразует tuple ['a', 'b', 'c'] в объект {0: 'a', 1: 'b', 2: 'c'}.
  */
-export type TupleToObject<T extends readonly any[]> = {
-  [K in keyof T & `${number}`]: T[K] 
+export type TupleToObject<T extends unknown[]> = {
+  [K in keyof T as Exclude<K, keyof unknown[]>]: T[K]
 };
 
 /**
- * Преобразует кортеж в объект с заданными именами свойств
- * Пример: 
- * TupleToObjectWithPropNames<['a', 'b'], {0: 'name', 1: 'age'}> 
- * => {name: 'a', age: 'b'}
+ * Преобразует tuple ['a', 'b', 'c']
+ * с переданным параметром N = {0: 'aKey', 1: 'bKey', 2: 'cKey'} или ['aKey', 'bKey', 'cKey']
+ * в объект {aKey: 'a', bKey: 'b', cKey: 'c'}.
  */
 export type TupleToObjectWithPropNames<
-  T extends readonly any[],
-  Names extends Record<keyof TupleToObject<T>, PropertyKey>,
-> = {
-  [K in keyof TupleToObject<T> as Names[K]]: T[K]
-};
+  T extends unknown[],
+  N extends Record<keyof TupleToObject<T>, PropertyKey>,
+  > = {
+    [K in keyof TupleToObject<T> as N[K]]: T[K]
+  };
 
-/** Удаляет первый элемент из кортежа */
-export type RemoveFirstFromTuple<T extends any[]> = 
-  T extends [any, ...infer R] ? R : [];
+/**
+ * Удаляет из кортежа первый элемент.
+ */
+export type RemoveFirstFromTuple<
+  T extends unknown[]
+> = T['length'] extends 0
+  ? never
+  : (((...b: T) => void) extends (a: infer F, ...b: infer I) => void ? I : []);
 
-/** Преобразует union type в кортеж */
-export type UnionToTuple<T> = 
-  [T] extends [never] ? [] :
-  T extends any ? [T, ...UnionToTuple<Exclude<T, T>>] : never;
+// credits goes to https://stackoverflow.com/a/50375286
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;
 
-/** Преобразует кортеж в union его элементов */
+// Converts union to overloaded function
+type UnionToOvlds<U> = UnionToIntersection<
+  U extends any ? (f: U) => void : never
+>;
+
+type PopUnion<U> = UnionToOvlds<U> extends (a: infer A) => void ? A : never;
+
+type IsUnion<T> = [T] extends [UnionToIntersection<T>] ? false : true;
+
+// Finally me)
+export type UnionToTuple<T, A extends unknown[] = []> = IsUnion<T> extends true
+  ? UnionToTuple<Exclude<T, PopUnion<T>>, [PopUnion<T>, ...A]>
+  : [T, ...A];
+
 export type TupleToUnion<T> =
-  T extends readonly (infer U)[] ? U : never;
+  T extends ReadonlyArray<infer RAT>
+    ? RAT
+    : T extends Array<infer AT>
+      ? AT
+      : never
+
+interface Person {
+  name: string;
+  age: number;
+  surname: string;
+  children: number;
+}
+
+type Result = UnionToTuple<keyof Person>; // ["name", "age", "surname", "children"]
+
+const func = <T, >(): UnionToTuple<keyof T> => null as any;
+
+const result = func<Person>(); // ["name", "age", "surname", "children"]

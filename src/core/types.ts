@@ -1,4 +1,4 @@
-import { RunMode } from '#api/server/types.js';
+import { Caller } from './caller.ts';
 import { Logger } from './logger/logger.ts';
 
 export type DTO = Record<string, unknown>;
@@ -44,8 +44,4 @@ export type Constructor<T> = new (...args: any[]) => T;
 export type ConstructorReturnType<C extends Constructor<any>>
 = C extends Constructor<infer R> ? R : never;
 
-export type DomainStorePayload = {
-  appName: string,
-  logger: Logger,
-  runMode: RunMode,
-}
+export type RunMode = 'test' | 'development' | 'production';

@@ -1,17 +1,12 @@
 import { success } from '../../../core/result/success.js';
 import { Result } from '../../../core/result/types.js';
-import { BusMessageType } from '../../bus/types.js';
 import { TransactionStrategy } from '../transaction-strategy/strategy.js';
 import { EventUCMeta, ServiceResult } from '../types.js';
 import { RequestScope } from '#core/index.ts';
-import { CommandService } from './command.uc.ts';
+import { CommandUseCase } from './command.uc.ts';
 
-export abstract class EventService<META extends EventUCMeta> extends CommandService<META> {
-  abstract busMessageType: BusMessageType;
-
-  abstract eventName: META['in']['name'];
-
-  abstract eventModuleName: string;
+export abstract class EventUseCase<META extends EventUCMeta> extends CommandUseCase<META> {
+  abstract consumeModuleName: META['in']['moduleName'];
 
   protected validator!: never;
 
@@ -19,18 +14,10 @@ export abstract class EventService<META extends EventUCMeta> extends CommandServ
 
   protected abstract transactionStrategy: TransactionStrategy;
 
-  get handleName(): string {
-    return this.eventName;
-  }
-
-  protected executeService(input: META['in'], reqScope: RequestScope): Promise<ServiceResult<META>> {
-    return this.transactionStrategy.executeDatabaseScope(this, input, reqScope);
-  }
-
   async execute(input: META['in'], reqScope: RequestScope): Promise<ServiceResult<META>> {
     const result = await super.execute(input, reqScope);
     if (result.isFailure()) {
-      throw this.moduleResolver.getLogger().error(
+      throw this.logger.error(
         'recieved failure result for event service',
         { input, result },
       );

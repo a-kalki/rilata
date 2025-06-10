@@ -1,8 +1,10 @@
-import { RequestScope } from '#core/index.ts';
+import { Logger, RequestScope } from '#core/index.ts';
 import { MaybePromise } from '#core/types.ts';
 import { DatabaseObjectSavingError, OptimisticLockVersionMismatchError } from '../../../core/exeptions.js';
 
 export abstract class TransactionStrategy {
+  constructor(protected logger: Logger) {}
+
   /** Ответственнен за выполнение транзацкии */
   protected abstract executeWithTransaction<
     IN, RET, S extends { runDomain:(input: IN, req: RequestScope) => MaybePromise<RET> }
@@ -21,22 +23,22 @@ export abstract class TransactionStrategy {
         reqScope.databaseErrorRestartAttempts = undefined;
         return r;
       } catch (e) {
-        const { caller, logger } = reqScope;
+        const { caller } = reqScope;
         if (e instanceof OptimisticLockVersionMismatchError) {
-          logger.warning(
+          this.logger.warning(
             'Произошла оптимистичная блокировка БД, пробуем перезапуститься...',
             { errorDesctiption: String(e), input, caller },
           );
         } else if (e instanceof DatabaseObjectSavingError) {
           if (reqScope.databaseErrorRestartAttempts === 0) {
-            logger.error(
+            this.logger.error(
               'Произошла ошибка БД, перезапуск не помог, прокидываем ошибку дальше...',
               { errorDesctiption: String(e), input, caller },
               e,
             );
             throw e;
           }
-          logger.warning(
+          this.logger.warning(
             'Произошла ошибка БД, пробуем перезапуститься...',
             { errorDesctiption: String(e), input, caller },
           );

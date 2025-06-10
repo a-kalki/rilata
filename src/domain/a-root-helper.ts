@@ -1,13 +1,15 @@
-import { domainStore } from '#core/store/domain-store.js';
-import { ARMeta, ArPublishEventMeta } from '#domain/meta-types.ts';
+import { ARMeta, ArPublishEvent } from '#domain/meta-types.ts';
 import { dtoUtility } from '#core/utils/index.ts';
-import { GetArrayType, Logger, RequestScope } from '#core/index.ts';
 import { AggregateRoot } from './a-root.ts';
+import { Logger } from '#api/logger/logger.ts';
+import { GetArrayType } from '#core/type-functions.ts';
+import { Caller } from '#core/caller.ts';
+import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
 
 /** Класс помощник агрегата. Забирает себе всю техническую работу агрегата,
     позволяя агрегату сосредоточиться на решении логики предметного уровня. */
 export class AggregateRootHelper<META extends ARMeta> {
-  private events: ArPublishEventMeta[] = [];
+  private events: ArPublishEvent[] = [];
 
   constructor(
     protected attrs: META['attrs'],
@@ -25,10 +27,6 @@ export class AggregateRootHelper<META extends ARMeta> {
     return this.attrs.id;
   }
 
-  getLogger(): Logger {
-    return domainStore.getPayload().logger;
-  }
-
   getOutput(copy = true): META['attrs'] {
     return copy ? dtoUtility.deepCopy(this.attrs) : this.attrs;
   }
@@ -36,25 +34,25 @@ export class AggregateRootHelper<META extends ARMeta> {
   registerEvent<EVENTS extends GetArrayType<META['events']>>(
     name: EVENTS['name'],
     attrs: EVENTS['attrs'],
-    reqScope: RequestScope,
+    requestId: string,
+    caller: Caller,
   ): void {
-    const event: ArPublishEventMeta = {
+    const event: ArPublishEvent = {
+      id: uuidUtility.getNewUuidV7(),
       name,
       attrs: {
         aRoot: this.getOutput(),
         event: attrs,
       },
-      requestData: {
-        requestId: reqScope.requestId,
-        caller: reqScope.caller,
-      },
-      aRootName: this.getName(),
+      caller,
+      requestId,
+      aRootName: this.ar.name,
       aRootVersion: this.getVersion(),
     };
     this.events.push(event);
   }
 
-  getEvents(): ArPublishEventMeta[] {
+  getEvents(): ArPublishEvent[] {
     return this.events;
   }
 
@@ -65,8 +63,8 @@ export class AggregateRootHelper<META extends ARMeta> {
   private validateVersion(): void {
     if (typeof this.version !== 'number' || this.version < 0) {
       throw this.getLogger().error(
-        `not valid version for aggregate ${this.aRootName}`,
-        { aRootName: this.aRootName, version: this.version },
+        `not valid version for aggregate ${this.ar.name}`,
+        { aRootName: this.ar.name, version: this.version },
       );
     }
   }

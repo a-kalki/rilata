@@ -1,14 +1,15 @@
 /* eslint-disable no-await-in-loop */
 import { Module } from '#api/module/module.js';
+import { ModuleMeta } from '#api/module/types.ts';
 import { MaybePromise } from '#core/types.js';
 import { consoleColor } from '#core/utils/string/console-color.js';
 import { Database } from './database.ts';
 import { Args, DatabaseServiceRow, SqlMethod } from './types.ts';
 
 export abstract class DatabaseServiceManager {
-  private modules: Module[];
+  private modules: Module<ModuleMeta>[];
 
-  constructor(modules: Module[]) {
+  constructor(modules: Module<ModuleMeta>[]) {
     this.modules = modules;
   }
 
@@ -44,10 +45,10 @@ export abstract class DatabaseServiceManager {
   getDbServiceRows(moduleNames: string[] | 'all' = 'all'): DatabaseServiceRow[] {
     const runModules = moduleNames === 'all'
       ? this.modules
-      : this.modules.filter((m) => moduleNames.includes(m.moduleName));
+      : this.modules.filter((m) => moduleNames.includes(m.name));
     return runModules.map((m) => ({
-      moduleName: m.moduleName,
-      db: m.getModuleResolver().getDatabase() as Database,
+      moduleName: m.name,
+      db: m.getModuleResolver().db as Database,
     }));
   }
 
