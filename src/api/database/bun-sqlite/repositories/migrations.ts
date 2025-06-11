@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { dtoUtility } from '../../../../core/utils/dto/dto-utility.ts';
 import { BunSqliteRepository } from '../repository.ts';
 import { MigrateRow } from '../types.ts';
 

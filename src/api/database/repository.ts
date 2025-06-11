@@ -1,4 +1,4 @@
-import { MaybePromise } from '#core/types.ts';
+import { MaybePromise } from '../../core/types.ts';
 import { DatabaseServiceStatus } from './types.ts';
 
 export interface Repository<

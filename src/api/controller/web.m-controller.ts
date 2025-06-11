@@ -1,12 +1,12 @@
-import { ModuleMeta, RequestScope, Urls } from '#api/module/types.ts';
-import { WebModule } from '#api/module/web.module.ts';
-import { STATUS_CODES } from '#api/utils/response/constants.ts';
-import { responseUtility } from '#api/utils/response/response-utility.ts';
-import { ResultDTO } from '#core/contract.ts';
-import { BackendErrors, BadRequestError } from '#core/errors.ts';
-import { failure } from '#core/result/failure.ts';
-import { success } from '#core/result/success.ts';
-import { Result } from '#core/result/types.ts';
+import { ResultDTO } from '../../core/contract.ts';
+import { BackendErrors, BadRequestError } from '../../core/errors.ts';
+import { failure } from '../../core/result/failure.ts';
+import { success } from '../../core/result/success.ts';
+import { Result } from '../../core/result/types.ts';
+import { ModuleMeta, RequestScope, Urls } from '../module/types.ts';
+import { WebModule } from '../module/web.module.ts';
+import { STATUS_CODES } from '../utils/response/constants.ts';
+import { responseUtility } from '../utils/response/response-utility.ts';
 import { Controller } from './controller.ts';
 import { RilataRequest } from './types.ts';
 

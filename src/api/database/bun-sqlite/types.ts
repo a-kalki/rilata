@@ -1,4 +1,4 @@
-import { UuidType } from '#core/types.ts';
+import { UuidType } from '../../../core/types.ts';
 
 export type MigrateRow = {
   id: UuidType,

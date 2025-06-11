@@ -1,7 +1,7 @@
-import { RequestScope } from '#api/module/types.ts';
-import { CommandUCMeta } from '#core/app-meta.ts';
-import { UcResult } from '#core/contract.ts';
+import { CommandUCMeta } from '../../../core/app-meta.ts';
+import { RequestScope } from '../../module/types.ts';
 import { TransactionStrategy } from '../transaction-strategy/strategy.ts';
+import { UcResult } from '../types.ts';
 import { QueryUseCase } from './query.uc.ts';
 
 /** Сервис для обработки команд */

@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import { Serve, Server as BUNServer } from 'bun';
-import { ServerMiddleware } from '#api/middle-after-ware/server-middleware.ts';
-import { ServerAfterware } from '#api/middle-after-ware/server-afterware.ts';
-import { Controller } from '#api/controller/controller.ts';
-import { ServerMeta } from '#api/server/types.ts';
-import { Server } from '#api/server/server.ts';
-import { Module } from '#api/module/module.ts';
-import { ModuleMeta } from '#api/module/types.ts';
-import { RilataRequest } from '#api/controller/types.ts';
-import { NotFoundError } from '#core/errors.ts';
-import { DTO } from '#core/types.ts';
-import { ResultDTO } from '#core/contract.ts';
-import { responseUtility } from '#api/utils/response/response-utility.ts';
 import { BunServerConfig } from './types.ts';
+import { ServerMeta } from '../types.ts';
+import { Server } from '../server.ts';
+import { ServerMiddleware } from '../../middle-after-ware/server-middleware.ts';
+import { ServerAfterware } from '../../middle-after-ware/server-afterware.ts';
+import { Controller } from '../../controller/controller.ts';
+import { Module } from '../../module/module.ts';
+import { ModuleMeta } from '../../module/types.ts';
+import { RilataRequest } from '../../controller/types.ts';
+import { NotFoundError } from '../../../core/errors.ts';
+import { DTO } from '../../../core/types.ts';
+import { ResultDTO } from '../../../core/contract.ts';
+import { responseUtility } from '../../utils/response/response-utility.ts';
 
 export abstract class BunServer<META extends ServerMeta> extends Server<META> {
   protected abstract middlewares: ServerMiddleware[];

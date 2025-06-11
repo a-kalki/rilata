@@ -1,4 +1,4 @@
-import { LocaleHint } from '#core/types.ts';
+import { LocaleHint } from '../../../core/types.ts';
 import {
   RuleType, GetRuleAnswer, RuleError, GetFailBehaviourString,
   GetSuccessBehaviourString, GetFailRuleAnswer, GetSuccessRuleAnswer,

@@ -1,7 +1,7 @@
-import { Logger } from '#api/logger/logger.ts';
-import { RequestScope } from '#api/module/types.ts';
-import { MaybePromise } from '#core/types.ts';
 import { DatabaseObjectSavingError, OptimisticLockVersionMismatchError } from '../../../core/exeptions.ts';
+import { MaybePromise } from '../../../core/types.ts';
+import { Logger } from '../../logger/logger.ts';
+import { RequestScope } from '../../module/types.ts';
 
 export abstract class TransactionStrategy {
   constructor(protected logger: Logger) {}

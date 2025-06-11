@@ -1,4 +1,4 @@
-import { Locale } from '#core/types.ts';
+import { Locale } from '../../../core/types.ts';
 import { ValidationRule } from './validation-rule.ts';
 
 export type RuleType = 'nullable' |'type' | 'assert' | 'validate';

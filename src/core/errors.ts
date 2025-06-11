@@ -1,5 +1,5 @@
-import { wholeValueValidationErrorKey } from '#domain/validator/constants.ts';
-import { ArrayFieldErrors, FieldErrors } from '#domain/validator/field-validator/types.ts';
+import { wholeValueValidationErrorKey } from '../domain/validator/constants.ts';
+import { ArrayFieldErrors, FieldErrors } from '../domain/validator/field-validator/types.ts';
 import { JwtVerifyErrors } from './jwt-errors.ts';
 
 export type ValidationError = {

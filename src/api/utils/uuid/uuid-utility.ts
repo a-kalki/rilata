@@ -1,6 +1,6 @@
 import { uuidv7 } from 'uuidv7';
-import { UuidType } from '#core/types.ts';
-import { AssertionException } from '#core/exeptions.ts';
+import { UuidType } from '../../../core/types.ts';
+import { AssertionException } from '../../../core/exeptions.ts';
 
 class UUIDUtility {
   private uuidRegex = '^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$';

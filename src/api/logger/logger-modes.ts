@@ -2,7 +2,8 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable consistent-return */
 // ++++++++++++ types +++++++++++++++++
-import { BinaryKeyFlag } from '#core/utils/binary/binary-flag/binary-flag.ts';
+
+import { BinaryKeyFlag } from '../../core/utils/binary/binary-flag/binary-flag.ts';
 
 /* eslint-disable key-spacing */
 export const loggerModes = {

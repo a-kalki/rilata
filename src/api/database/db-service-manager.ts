@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
-import { Module } from '#api/module/module.ts';
-import { ModuleMeta } from '#api/module/types.ts';
-import { MaybePromise } from '#core/types.ts';
-import { consoleColor } from '#core/utils/string/console-color.ts';
+import { MaybePromise } from '../../core/types.ts';
+import { consoleColor } from '../../core/utils/string/console-color.ts';
+import { Module } from '../module/module.ts';
+import { ModuleMeta } from '../module/types.ts';
 import { Database } from './database.ts';
 import { Args, DatabaseServiceRow, SqlMethod } from './types.ts';
 

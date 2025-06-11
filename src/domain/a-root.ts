@@ -1,7 +1,7 @@
-import { AssertionException } from '#core/exeptions.ts';
-import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
-import { ARMeta } from '#domain/meta-types.ts';
+import { AssertionException } from '../core/exeptions.ts';
+import { dtoUtility } from '../core/utils/dto/dto-utility.ts';
 import { AggregateRootHelper } from './a-root-helper.ts';
+import { ARMeta } from './meta-types.ts';
 import { DtoFieldValidator } from './validator/field-validator/dto-field-validator.ts';
 
 /** Корневой объект - т.е имеет уникальную глобальную идентификацию */

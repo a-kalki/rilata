@@ -1,5 +1,5 @@
-import { JwtConfig } from '#api/server/types.ts';
-import { jwtHmacHashUtils } from '#api/utils/jwt/jwt-utils.ts';
+import { JwtConfig } from '../../server/types.ts';
+import { jwtHmacHashUtils } from '../../utils/jwt/jwt-utils.ts';
 import { JwtCreator } from '../jwt-creator.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
 import { JwtDto, JwtPayload, JwtType } from '../types.ts';

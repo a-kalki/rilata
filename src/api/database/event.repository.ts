@@ -1,5 +1,5 @@
-import { ArPublishEvent } from '#domain/meta-types.ts';
 import { MaybePromise, UuidType } from '../../core/types.ts';
+import { ArPublishEvent } from '../../domain/meta-types.ts';
 
 export interface EventRepository {
   addEvents(event: ArPublishEvent[]): MaybePromise<unknown>

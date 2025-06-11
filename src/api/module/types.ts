@@ -1,8 +1,8 @@
-import { Database } from '#api/database/database.ts';
-import { ServerResolver } from '#api/server/types.ts';
-import { Caller } from '#core/caller.ts';
-import { Result } from '#core/result/types.ts';
-import { DTO } from '#core/types.ts';
+import { Caller } from '../../core/caller.ts';
+import { Result } from '../../core/result/types.ts';
+import { DTO } from '../../core/types.ts';
+import { Database } from '../database/database.ts';
+import { ServerResolver } from '../server/types.ts';
 
 export type Urls = string[] | RegExp[]; // example: ['/api/company-module/']
 

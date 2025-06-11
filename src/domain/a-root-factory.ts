@@ -1,6 +1,6 @@
-import { DTO } from '#core/types.ts';
-import { ARMeta } from '#domain/meta-types.ts';
+import { DTO } from '../core/types.ts';
 import { AggregateRoot } from './a-root.ts';
+import { ARMeta } from './meta-types.ts';
 
 export abstract class AggregateFactory<PARAMS extends ARMeta> {
   /** создать экземпляр агрегата по событию */

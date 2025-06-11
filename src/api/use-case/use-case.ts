@@ -1,6 +1,6 @@
-import { Logger } from '#api/logger/logger.ts';
-import { Executable, ExecutableInput, RequestScope, Resolvers } from '#api/module/types.ts';
-import { Result } from '#core/result/types.ts';
+import { Result } from '../../core/result/types.ts';
+import { Logger } from '../logger/logger.ts';
+import { Executable, ExecutableInput, RequestScope, Resolvers } from '../module/types.ts';
 
 /** Обработчик входящих в модуль запросов */
 export abstract class UseCase implements Executable {

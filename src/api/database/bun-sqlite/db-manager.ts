@@ -1,6 +1,6 @@
-import { DatabaseServiceManager } from '#api/database/db-service-manager.ts';
-import { SqlMethod } from '#api/database/types.ts';
-import { MaybePromise } from '#core/types.ts';
+import { MaybePromise } from '../../../core/types.ts';
+import { DatabaseServiceManager } from '../db-service-manager.ts';
+import { SqlMethod } from '../types.ts';
 import { BunSqliteDatabase } from './database.ts';
 
 export class BunSqliteDatabaseManager extends DatabaseServiceManager {

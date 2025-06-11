@@ -1,8 +1,8 @@
-import { UnitOfWorkDatabase } from '#api/database/transaction/uow.database.ts';
-import { Logger } from '#api/logger/logger.ts';
-import { RequestScope } from '#api/module/types.ts';
-import { MaybePromise } from '#core/types.ts';
 import { Result } from '../../../core/result/types.ts';
+import { MaybePromise } from '../../../core/types.ts';
+import { UnitOfWorkDatabase } from '../../database/transaction/uow.database.ts';
+import { Logger } from '../../logger/logger.ts';
+import { RequestScope } from '../../module/types.ts';
 import { TransactionStrategy } from './strategy.ts';
 
 export class UowTransactionStrategy

@@ -1,8 +1,8 @@
-import { JwtConfig } from '#api/server/types.ts';
-import { jwtHmacHashUtils } from '#api/utils/jwt/jwt-utils.ts';
-import { JwtVerifyErrors } from '#core/jwt-errors.ts';
-import { failure } from '#core/result/failure.ts';
-import { Result } from '#core/result/types.ts';
+import { JwtVerifyErrors } from '../../../core/jwt-errors.ts';
+import { failure } from '../../../core/result/failure.ts';
+import { Result } from '../../../core/result/types.ts';
+import { JwtConfig } from '../../server/types.ts';
+import { jwtHmacHashUtils } from '../../utils/jwt/jwt-utils.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
 import { JwtVerifier } from '../jwt-verifier.ts';
 import { JwtDto } from '../types.ts';

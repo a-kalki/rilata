@@ -1,6 +1,6 @@
 import { createHmac } from 'crypto';
-import { DTO } from '#core/types.ts';
-import { urlUtils } from '#core/utils/url/url-utils.ts';
+import { DTO } from '../../../core/types.ts';
+import { urlUtils } from '../../../core/utils/url/url-utils.ts';
 
 class JwtHmacHashUtils<T extends DTO | string> {
   /** returned jwt token */

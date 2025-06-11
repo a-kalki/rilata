@@ -1,5 +1,5 @@
-import { Caller } from '#core/caller.ts';
-import { DTO, IdType } from '#core/types.ts';
+import { Caller } from '../core/caller.ts';
+import { DTO, IdType } from '../core/types.ts';
 
 // доменное событие
 export type EventMeta = {

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { UCMeta } from '#core/app-meta.ts';
-import { BackendResult, BackendResultDTO } from '#core/contract.ts';
-import { BadRequestError } from '#core/errors.ts';
-import { failure } from '#core/result/failure.ts';
-import { success } from '#core/result/success.ts';
-import { Result } from '#core/result/types.ts';
+
+import { UCMeta } from '../../core/app-meta.ts';
+import { BackendResult, BackendResultDTO } from '../../core/contract.ts';
+import { BadRequestError } from '../../core/errors.ts';
+import { failure } from '../../core/result/failure.ts';
+import { success } from '../../core/result/success.ts';
+import { Result } from '../../core/result/types.ts';
 
 export class BackendApi {
   constructor(protected moduleUrl: string) {}

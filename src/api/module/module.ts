@@ -1,7 +1,6 @@
-/* eslint-disable no-use-before-define */
-import { Controller } from '#api/controller/controller.ts';
-import { Logger } from '#api/logger/logger.ts';
-import { ServerResolver } from '#api/server/types.ts';
+import { Controller } from '../controller/controller.ts';
+import { Logger } from '../logger/logger.ts';
+import { ServerResolver } from '../server/types.ts';
 import { ModuleConfig, ModuleMeta, ModuleResolver, RequestScope } from './types.ts';
 
 export abstract class Module<META extends ModuleMeta> {

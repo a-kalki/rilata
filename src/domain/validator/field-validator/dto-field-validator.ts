@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import { failure } from '#core/result/failure.ts';
-import { success } from '#core/result/success.ts';
-import { DTO } from '#core/types.ts';
+import { failure } from '../../../core/result/failure.ts';
+import { success } from '../../../core/result/success.ts';
+import { DTO } from '../../../core/types.ts';
 import { FieldValidator } from './field-validator.ts';
 import {
   ArrayFieldErrors, FieldErrors, FullFieldResult, GetArrayConfig,

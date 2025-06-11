@@ -8,13 +8,6 @@
     "outDir": "./dist",  // Директория для выходных файлов
     "rootDir": "./src/",
     "lib": ["esnext", "dom"],  // Включение библиотек для браузера и стандартной библиотеки ES
-    "baseUrl": "./",
-    "paths": {
-        "#core/*": ["./src/core/*"],
-        "#domain/*": ["./src/domain/*"],
-        "#api/*": ["./src/api/*"],
-        "#ui/*": ["./src/ui/*"]
-    },
     "esModuleInterop": true,  // Включение совместимости с CommonJS модулями
     "allowSyntheticDefaultImports": true,  // Разрешение синтетических импортов по умолчанию
     "skipLibCheck": true,  // Пропуск проверки типов в файлах библиотеки для ускорения компиляции

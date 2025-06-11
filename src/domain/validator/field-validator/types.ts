@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
-import { DTO } from '#core/types.ts';
 import { Result } from '../../../core/result/types.ts';
-import { LiteralDataType, RuleError } from '../../validator/rules/types.ts';
+import { DTO } from '../../../core/types.ts';
+import { LiteralDataType, RuleError } from '../rules/types.ts';
 import { DtoFieldValidator } from './dto-field-validator.ts';
 import { LiteralFieldValidator } from './literal-field-validator.ts';
 

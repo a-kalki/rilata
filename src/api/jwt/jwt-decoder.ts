@@ -1,4 +1,4 @@
-import { JwtDecodeErrors } from '#core/jwt-errors.ts';
+import { JwtDecodeErrors } from '../../core/jwt-errors.ts';
 import { Result } from '../../core/result/types.ts';
 import { JwtDto, JwtPayload, JwtType } from './types.ts';
 

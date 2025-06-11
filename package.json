@@ -27,12 +27,6 @@
     "./api-helper": "./src/api/helper.index.ts",
     "./ui": "./src/ui/index.ts"
   },
-  "imports": {
-    "#domain": "./src/domain/*",
-    "#core": "./src/core/*",
-    "#api": "./src/api/*",
-    "#ui": "./src/ui/*"
-  },
   "devDependencies": {
     "@grammyjs/types": "grammyjs/types",
     "@types/bun": "latest",

@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { jwtHmacHashUtils } from '#api/utils/jwt/jwt-utils.ts';
-import { JwtDecodeErrors } from '#core/jwt-errors.ts';
-import { failure } from '#core/result/failure.ts';
-import { success } from '#core/result/success.ts';
-import { Result } from '#core/result/types.ts';
-import { UnionToTuple } from '#core/tuple-types.ts';
-import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { JwtDecodeErrors } from '../../../core/jwt-errors.ts';
+import { failure } from '../../../core/result/failure.ts';
+import { success } from '../../../core/result/success.ts';
+import { Result } from '../../../core/result/types.ts';
+import { dtoUtility } from '../../../core/utils/dto/dto-utility.ts';
+import { jwtHmacHashUtils } from '../../utils/jwt/jwt-utils.ts';
 import { JwtDecoder } from '../jwt-decoder.ts';
 import { JwtDto, JwtPayload, JwtType } from '../types.ts';
 

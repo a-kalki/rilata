@@ -1,4 +1,4 @@
-import { JwtVerifyErrors } from '#core/jwt-errors.ts';
+import { JwtVerifyErrors } from '../../core/jwt-errors.ts';
 import { Result } from '../../core/result/types.ts';
 import { JwtDto } from './types.ts';
 

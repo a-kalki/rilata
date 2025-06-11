@@ -1,9 +1,9 @@
-import { ARMeta, ArPublishEvent } from '#domain/meta-types.ts';
-import { GetArrayType } from '#core/type-functions.ts';
-import { Caller } from '#core/caller.ts';
-import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
+import { uuidUtility } from '../api/utils/uuid/uuid-utility.ts';
+import { Caller } from '../core/caller.ts';
+import { GetArrayType } from '../core/type-functions.ts';
+import { dtoUtility } from '../core/utils/dto/dto-utility.ts';
 import { AggregateRoot } from './a-root.ts';
-import { dtoUtility } from '#core/utils/dto/dto-utility.ts';
+import { ARMeta, ArPublishEvent } from './meta-types.ts';
 
 /** Класс помощник агрегата. Забирает себе всю техническую работу агрегата,
     позволяя агрегату сосредоточиться на решении логики предметного уровня. */

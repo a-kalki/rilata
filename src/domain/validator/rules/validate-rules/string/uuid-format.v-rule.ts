@@ -1,4 +1,4 @@
-import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
+import { uuidUtility } from '../../../../../api/utils/uuid/uuid-utility.ts';
 import { ValidationRuleAnswer } from '../../types.ts';
 import { ValidationRule } from '../../validation-rule.ts';
 

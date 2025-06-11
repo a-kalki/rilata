@@ -1,4 +1,4 @@
-import { Caller } from '#core/caller.ts';
+import { Caller } from "../../core/caller.ts";
 
 export type RilataRequest =
   Request

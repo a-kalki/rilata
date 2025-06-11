@@ -1,4 +1,3 @@
-import { DTO } from '#core/types.ts';
 import { failure } from '../../../core/result/failure.ts';
 import { success } from '../../../core/result/success.ts';
 import { AssertionException } from '../../../core/exeptions.ts';
@@ -21,6 +20,7 @@ import {
   RulesValidatedAnswer, RuleErrors, FieldResult, FullFieldResult,
   ArrayFieldResult, ArrayFieldErrors, FieldErrors,
 } from './types.js';
+import { DTO } from '../../../core/types.ts';
 
 export abstract class FieldValidator<
   NAME extends string,

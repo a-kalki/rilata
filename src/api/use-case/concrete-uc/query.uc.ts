@@ -1,13 +1,12 @@
-import { RequestScope } from '#api/module/types.ts';
-import { UCMeta } from '#core/app-meta.ts';
-import { UcResult } from '#core/contract.ts';
-import { PermissionDeniedError, ValidationError, wholeValueValidationError } from '#core/errors.ts';
-import { failure } from '#core/result/failure.ts';
-import { success } from '#core/result/success.ts';
-import { Result } from '#core/result/types.ts';
-import { MaybePromise } from '#core/types.ts';
-import { DtoFieldValidator } from '#domain/validator/field-validator/dto-field-validator.ts';
-import { RunDomainResult } from '../types.ts';
+import { UCMeta } from '../../../core/app-meta.ts';
+import { PermissionDeniedError, ValidationError, wholeValueValidationError } from '../../../core/errors.ts';
+import { failure } from '../../../core/result/failure.ts';
+import { success } from '../../../core/result/success.ts';
+import { Result } from '../../../core/result/types.ts';
+import { MaybePromise } from '../../../core/types.ts';
+import { DtoFieldValidator } from '../../../domain/validator/field-validator/dto-field-validator.ts';
+import { RequestScope } from '../../module/types.ts';
+import { RunDomainResult, UcResult } from '../types.ts';
 import { UseCase } from '../use-case.ts';
 
 export abstract class QueryUseCase<META extends UCMeta> extends UseCase {

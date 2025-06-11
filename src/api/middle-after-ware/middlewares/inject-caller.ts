@@ -1,7 +1,7 @@
-import { JwtVerifier } from '#api/jwt/jwt-verifier.ts';
-import { ResultDTO } from '#core/contract.ts';
-import { JwtVerifyErrors } from '#core/jwt-errors.ts';
+import { ResultDTO } from '../../../core/contract.ts';
+import { JwtVerifyErrors } from '../../../core/jwt-errors.ts';
 import { RilataRequest } from '../../controller/types.ts';
+import { JwtVerifier } from '../../jwt/jwt-verifier.ts';
 import { ServerMiddleware } from '../server-middleware.ts';
 
 export class InjectCallerMiddleware extends ServerMiddleware {

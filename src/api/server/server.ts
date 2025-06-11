@@ -1,6 +1,6 @@
-import { Logger } from '#api/logger/logger.ts';
-import { ModuleMeta } from '#api/module/types.ts';
+import { Logger } from '../logger/logger.ts';
 import { Module } from '../module/module.ts';
+import { ModuleMeta } from '../module/types.ts';
 import { ServerConfig, ServerMeta } from './types.ts';
 
 export abstract class Server<META extends ServerMeta> {

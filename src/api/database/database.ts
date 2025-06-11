@@ -1,4 +1,4 @@
-import { DTO, MaybePromise } from '#core/types.ts';
+import { DTO, MaybePromise } from '../../core/types.ts';
 import { Repository } from './repository.ts';
 import { DatabaseServiceStatus, BatchRecords } from './types.ts';
 

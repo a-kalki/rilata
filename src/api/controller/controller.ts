@@ -1,4 +1,4 @@
-import { Urls } from '#api/module/types.ts';
+import { Urls } from '../module/types.ts';
 
 export interface Controller {
   execute(req: Request): Promise<unknown>

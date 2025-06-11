@@ -1,12 +1,9 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-use-before-define */
-import { WebModuleController } from '#api/controller/web.m-controller.ts';
-import { BackendResult } from '#core/contract.ts';
-import { BadRequestError, InternalError, InvalidInputNameError } from '#core/errors.ts';
-import { success } from '#core/result/success.ts';
-import { Result } from '#core/result/types.ts';
+import { BackendResult } from '../../core/contract.ts';
+import { BadRequestError, InternalError, InvalidInputNameError } from '../../core/errors.ts';
 import { failure } from '../../core/result/failure.ts';
+import { success } from '../../core/result/success.ts';
+import { Result } from '../../core/result/types.ts';
+import { WebModuleController } from '../controller/web.m-controller.ts';
 import { Module } from './module.ts';
 import { Executable, ExecutableInput, ModuleConfig, ModuleMeta, RequestScope } from './types.ts';
 

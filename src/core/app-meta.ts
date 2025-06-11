@@ -1,4 +1,4 @@
-import { ARMeta, ArPublishEvent, DomainErrorMeta } from '#domain/meta-types.ts';
+import { ARMeta, ArPublishEvent, DomainErrorMeta } from '../domain/meta-types.ts';
 import { DTO } from './types.ts';
 
 export type InputMeta = {

@@ -1,5 +1,5 @@
-import { RilataRequest } from '#api/controller/types.ts';
-import { Logger } from '#api/logger/logger.ts';
+import { RilataRequest } from '../../controller/types.ts';
+import { Logger } from '../../logger/logger.ts';
 import { ServerAfterware } from '../server-afterware.ts';
 
 export class LogResponseAfterware extends ServerAfterware {

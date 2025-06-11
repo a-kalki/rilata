@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DTO } from '#core/types.ts';
+import { DTO } from '../../core/types.ts';
 import { Database } from './database.ts';
 import { Repository } from './repository.ts';
 

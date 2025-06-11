@@ -1,4 +1,4 @@
-import { RilataRequest } from '#api/controller/types.ts';
+import { RilataRequest } from '../controller/types.ts';
 
 export abstract class ServerAfterware {
   /** Постобработка всех запросов. */

@@ -1,7 +1,7 @@
-import { DtoFieldValidator } from '#domain/validator/field-validator/dto-field-validator.ts';
-import { ArrayFieldErrors, FieldErrors, GetArrayConfig } from '#domain/validator/field-validator/types.ts';
-import { ValidationRule } from '#domain/validator/rules/validation-rule.ts';
-import { RuleType } from '#domain/validator/rules/types.ts';
+import { RuleType } from '../../../rules/types.ts';
+import { ValidationRule } from '../../../rules/validation-rule.ts';
+import { DtoFieldValidator } from '../../dto-field-validator.ts';
+import { ArrayFieldErrors, FieldErrors, GetArrayConfig } from '../../types.ts';
 
 /** Используется, когда заранее не известно имя атрибутов,
 т.е. и имя и значение вводятся пользователем.

@@ -1,6 +1,6 @@
-import { TelegramApi } from '#api/utils/telegram-api/telegram-api.ts';
-import { BotLoggerConfig, SendMessage } from '#api/utils/telegram-api/types.ts';
-import { RunMode } from '#core/types.ts';
+import { RunMode } from '../../core/types.ts';
+import { TelegramApi } from '../utils/telegram-api/telegram-api.ts';
+import { BotLoggerConfig, SendMessage } from '../utils/telegram-api/types.ts';
 import { BaseLogger } from './base-logger.ts';
 import { LoggerModes } from './logger-modes.ts';
 

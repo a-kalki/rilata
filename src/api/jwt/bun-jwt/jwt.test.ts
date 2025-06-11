@@ -1,13 +1,13 @@
 import {
   describe, expect, spyOn, test,
 } from 'bun:test';
-import { UserId } from '#core/types.ts';
-import { JwtConfig } from '#api/server/types.ts';
-import { JwtDecodeErrors, JwtVerifyErrors } from '#core/jwt-errors.ts';
-import { uuidUtility } from '#api/utils/uuid/uuid-utility.ts';
 import { BunJwtDecoder } from './jwt-decoder.ts';
 import { BunJwtVerifier } from './jwt-verifier.ts';
 import { BunJwtCreator } from './jwt-creator.ts';
+import { UserId } from '../../../core/types.ts';
+import { JwtConfig } from '../../server/types.ts';
+import { uuidUtility } from '../../utils/uuid/uuid-utility.ts';
+import { JwtDecodeErrors, JwtVerifyErrors } from '../../../core/jwt-errors.ts';
 
 type TestJwtPayload = {
   userId: UserId,

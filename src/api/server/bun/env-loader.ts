@@ -1,6 +1,6 @@
-import { RunMode } from '#core/types.ts';
 import { BunServerConfig } from './types.ts';
 import { JwtConfig } from '../types.ts';
+import { RunMode } from '../../../core/types.ts';
 
 export const defaultServerConfig: BunServerConfig = {
   localHost: 'localhost',
