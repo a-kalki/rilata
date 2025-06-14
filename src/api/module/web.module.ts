@@ -17,6 +17,7 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
   ) {
     super(config, resolvers);
     this.controller = new WebModuleController(this, resolvers.moduleResolver.moduleUrls);
+    executable.forEach((e) => e.init(resolvers));
   }
 
   /** Обеспачиват выполнение сервиса. */

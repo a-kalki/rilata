@@ -1,17 +1,17 @@
-import { JwtVerifyErrors } from '../../../core/jwt-errors.ts';
+import { JwtDecoder } from '../../../core/jwt/jwt-decoder.ts';
+import { JwtVerifyErrors } from '../../../core/jwt/jwt-errors.ts';
+import { JwtDto } from '../../../core/jwt/types.ts';
 import { failure } from '../../../core/result/failure.ts';
 import { Result } from '../../../core/result/types.ts';
 import { JwtConfig } from '../../server/types.ts';
 import { jwtHmacHashUtils } from '../../utils/jwt/jwt-utils.ts';
-import { JwtDecoder } from '../jwt-decoder.ts';
 import { JwtVerifier } from '../jwt-verifier.ts';
-import { JwtDto } from '../types.ts';
 
 export class BunJwtVerifier<PAYLOAD extends JwtDto> implements JwtVerifier<PAYLOAD> {
   constructor(
     protected jwtSecret: string,
     protected jwtConfig: JwtConfig,
-    protected getJwtDecoder: JwtDecoder<PAYLOAD>,
+    protected jwtDecoder: JwtDecoder<PAYLOAD>,
   ) {}
 
   verifyToken(rawToken: string): Result<JwtVerifyErrors, PAYLOAD> {
@@ -22,6 +22,6 @@ export class BunJwtVerifier<PAYLOAD extends JwtDto> implements JwtVerifier<PAYLO
         type: 'app-error',
       });
     }
-    return this.getJwtDecoder.getTokenPayload(rawToken);
+    return this.jwtDecoder.getTokenPayload(rawToken);
   }
 }

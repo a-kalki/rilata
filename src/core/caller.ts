@@ -6,14 +6,20 @@ export type AnonymousUser = {
 
 export type AuthUser = {
   type: 'AuthUser',
-  userId: IdType,
+  id: IdType,
+  support?: {
+    isModerator?: false,
+  }
 };
 
 export type ModeratorUser = {
   type: 'ModeratorUser',
-  userId: IdType,
+  id: IdType,
+  support?: {
+    isModerator?: true,
+  }
 };
 
-export type Caller = AnonymousUser | AuthUser;
+export type Caller = AnonymousUser | AuthUser | ModeratorUser;
 
 export type CallerType = Caller['type'];

@@ -15,10 +15,9 @@ export abstract class AggregateRoot<META extends ARMeta> {
 
   constructor(
     protected attrs: META['attrs'],
-    protected version: number,
     protected invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>,
   ) {
-    this.helper = new AggregateRootHelper<META>(attrs, version, this);
+    this.helper = new AggregateRootHelper<META>(attrs, this);
     this.checkInveriants(invariantsValidator, attrs);
   }
 

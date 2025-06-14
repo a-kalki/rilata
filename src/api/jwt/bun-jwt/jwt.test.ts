@@ -1,13 +1,13 @@
 import {
   describe, expect, spyOn, test,
 } from 'bun:test';
-import { BunJwtDecoder } from './jwt-decoder.ts';
 import { BunJwtVerifier } from './jwt-verifier.ts';
 import { BunJwtCreator } from './jwt-creator.ts';
 import { UserId } from '../../../core/types.ts';
 import { JwtConfig } from '../../server/types.ts';
 import { uuidUtility } from '../../utils/uuid/uuid-utility.ts';
-import { JwtDecodeErrors, JwtVerifyErrors } from '../../../core/jwt-errors.ts';
+import { BaseJwtDecoder } from '../../../core/jwt/base-jwt-decoder.ts';
+import { JwtDecodeErrors, JwtVerifyErrors } from '../../../core/jwt/jwt-errors.ts';
 
 type TestJwtPayload = {
   userId: UserId,
@@ -22,7 +22,7 @@ const jwtConfig: JwtConfig = {
   jwtRefreshLifetimeAsHour: 24 * 3,
 };
 
-class TestJwtDecoder extends BunJwtDecoder<TestJwtPayload> {
+class TestJwtDecoder extends BaseJwtDecoder<TestJwtPayload> {
   constructor(public expiredTimeShiftAsMs: number) {
     super();
   }

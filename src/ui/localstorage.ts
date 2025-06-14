@@ -1,6 +1,10 @@
 /* eslint-disable consistent-return */
 export const localStore = {
   set<T>(key: string, value: T): void {
+    if (typeof value !== 'string') {
+      console.log('value: ', value);
+      throw Error('not string')
+    }
     localStorage.setItem(key, JSON.stringify(value));
   },
 

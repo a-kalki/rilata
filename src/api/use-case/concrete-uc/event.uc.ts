@@ -1,12 +1,15 @@
 import { EventUCMeta } from '../../../core/app-meta.ts';
 import { success } from '../../../core/result/success.ts';
 import { Result } from '../../../core/result/types.ts';
-import { RequestScope } from '../../module/types.ts';
+import { RequestScope, Resolvers } from '../../module/types.ts';
 import { TransactionStrategy } from '../transaction-strategy/strategy.ts';
 import { UcResult } from '../types.ts';
 import { CommandUseCase } from './command.uc.ts';
 
-export abstract class EventUseCase<META extends EventUCMeta> extends CommandUseCase<META> {
+export abstract class EventUseCase<
+  R extends Resolvers,
+  META extends EventUCMeta
+> extends CommandUseCase<R, META> {
   abstract consumeModuleName: META['in']['moduleName'];
 
   protected validator!: never;

@@ -57,6 +57,7 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
       }
 
       const controller = this.getControllerByUrlPath(req);
+
       if (controller) {
         const result = await controller.execute(req);
         const resp = result instanceof Response ? result : new Response('success', { status: 200 });
@@ -124,7 +125,8 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
   }
 
   protected getInternalError(req: Request, e: Error): Response {
-    this.resolver.logger.error(String(e), { url: req.url, body: req.json() }, e as Error);
+    const clone = req.clone();
+    this.resolver.logger.error(String(e), { url: clone.url, body: clone.json() }, e as Error);
 
     const data = this.resolver.runMode === 'development'
       ? {

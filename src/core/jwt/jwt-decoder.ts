@@ -1,5 +1,5 @@
-import { JwtDecodeErrors } from '../../core/jwt-errors.ts';
-import { Result } from '../../core/result/types.ts';
+import { Result } from '../result/types.ts';
+import { JwtDecodeErrors } from './jwt-errors.ts';
 import { JwtDto, JwtPayload, JwtType } from './types.ts';
 
 export interface JwtDecoder<PAYLOAD extends JwtDto> {

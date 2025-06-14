@@ -23,12 +23,12 @@ export type UCMeta = {
   description?: string;
   in: InputMeta;
   success: unknown;
-  errors: DomainErrorMeta[];
+  errors: DomainErrorMeta;
   aRoot: ARMeta;
 }
 
 export type CommandUCMeta = UCMeta & {
-  emitsEvents: ArPublishEvent[];
+  events: ArPublishEvent;
 }
 
 export type EventUCMeta = Omit<CommandUCMeta, 'in' | 'errors' | 'out'> & {

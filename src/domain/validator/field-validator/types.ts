@@ -67,7 +67,7 @@ type GetValidator<NAME extends string, REQ extends boolean, IS_ARR extends boole
         ? LiteralFieldValidator<NAME, REQ, IS_ARR, TYPE>
         : never
 
-export type ValidatorMap<DTO_TYPE extends DTO> = {
+export type ValidatorMap<DTO_TYPE extends DTO | undefined> = {
   [KEY in keyof DTO_TYPE & string]-?: unknown extends DTO_TYPE[KEY]
     ? (
       LiteralFieldValidator<KEY, boolean, boolean, string | number | boolean>

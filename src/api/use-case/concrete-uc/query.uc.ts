@@ -3,17 +3,26 @@ import { PermissionDeniedError, ValidationError, wholeValueValidationError } fro
 import { failure } from '../../../core/result/failure.ts';
 import { success } from '../../../core/result/success.ts';
 import { Result } from '../../../core/result/types.ts';
-import { MaybePromise } from '../../../core/types.ts';
 import { DtoFieldValidator } from '../../../domain/validator/field-validator/dto-field-validator.ts';
-import { RequestScope } from '../../module/types.ts';
+import { RequestScope, Resolvers } from '../../module/types.ts';
 import { RunDomainResult, UcResult } from '../types.ts';
 import { UseCase } from '../use-case.ts';
 
-export abstract class QueryUseCase<META extends UCMeta> extends UseCase {
-  protected supportAnonimousCall = false;
+export abstract class QueryUseCase<R extends Resolvers, META extends UCMeta> extends UseCase {
+  protected abstract supportAnonimousCall: boolean;
+
+  declare protected moduleResolver: R['moduleResolver'];
+
+  declare protected serverResolver: R['serverResolver'];
+
+  abstract arName: META['aRoot']['name'];
+
+  abstract name: META['name'];
+
+  abstract inputName: META['in']['name'];
 
   protected abstract validator: DtoFieldValidator<
-    'attrs', false, false, META['in']['attrs']
+    META['in']['name'], true, false, META['in']['attrs']
   >;
 
   /** Выполнить сервис */
@@ -29,7 +38,7 @@ export abstract class QueryUseCase<META extends UCMeta> extends UseCase {
   }
 
   /** Выполнить работу доменной логики */
-  abstract runDomain(input: META['in'], requestData: RequestScope): MaybePromise<RunDomainResult<META>>
+  abstract runDomain(input: META['in'], requestData: RequestScope): Promise<RunDomainResult<META>>
 
   /** Выполнить проверку разрешений пользователя и валидации */
   protected runInitialChecks(

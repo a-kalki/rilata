@@ -1,8 +1,8 @@
+import { JwtDecoder } from '../../core/jwt/jwt-decoder.ts';
+import { JwtDto } from '../../core/jwt/types.ts';
 import { RunMode } from '../../core/types.ts';
 import { JwtCreator } from '../jwt/jwt-creator.ts';
-import { JwtDecoder } from '../jwt/jwt-decoder.ts';
 import { JwtVerifier } from '../jwt/jwt-verifier.ts';
-import { JwtDto } from '../jwt/types.ts';
 import { Logger } from '../logger/logger.ts';
 
 export type ServerConfig = Record<string, unknown>

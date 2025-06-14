@@ -1,6 +1,5 @@
 import { uuidUtility } from '../api/utils/uuid/uuid-utility.ts';
 import { Caller } from '../core/caller.ts';
-import { GetArrayType } from '../core/type-functions.ts';
 import { dtoUtility } from '../core/utils/dto/dto-utility.ts';
 import { AggregateRoot } from './a-root.ts';
 import { ARMeta, ArPublishEvent } from './meta-types.ts';
@@ -10,11 +9,17 @@ import { ARMeta, ArPublishEvent } from './meta-types.ts';
 export class AggregateRootHelper<META extends ARMeta> {
   private events: ArPublishEvent[] = [];
 
+  private version: number;
+
   constructor(
     protected attrs: META['attrs'],
-    protected version: number,
-    protected ar: AggregateRoot<META>,
+    protected aRoot: AggregateRoot<META>,
   ) {
+    this.version = 0;
+  }
+
+  setVersion(version: number): void {
+    this.version = version;
     this.validateVersion();
   }
 
@@ -30,9 +35,9 @@ export class AggregateRootHelper<META extends ARMeta> {
     return copy ? dtoUtility.deepCopy(this.attrs) : this.attrs;
   }
 
-  registerEvent<EVENTS extends GetArrayType<META['events']>>(
-    name: EVENTS['name'],
-    attrs: EVENTS['attrs'],
+  registerEvent<EVENT extends META['events']>(
+    name: EVENT['name'],
+    attrs: EVENT['attrs'],
     requestId: string,
     caller: Caller,
   ): void {
@@ -45,7 +50,7 @@ export class AggregateRootHelper<META extends ARMeta> {
       },
       caller,
       requestId,
-      aRootName: this.ar.name,
+      aRootName: this.aRoot.name,
       aRootId: this.getId(),
       createdAt: Date.now(),
       aRootVersion: this.getVersion(),
@@ -63,7 +68,7 @@ export class AggregateRootHelper<META extends ARMeta> {
 
   private validateVersion(): void {
     if (typeof this.version !== 'number' || this.version < 0) {
-      throw Error(`not valid version for aggregate. arName: ${this.ar.name}; version: ${this.version}`);
+      throw Error(`not valid version for aggregate. arName: ${this.aRoot.name}; version: ${this.version}`);
     }
   }
 }

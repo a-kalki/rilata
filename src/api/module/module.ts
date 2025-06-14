@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Controller } from '../controller/controller.ts';
 import { Logger } from '../logger/logger.ts';
 import { ServerResolver } from '../server/types.ts';
@@ -15,7 +16,6 @@ export abstract class Module<META extends ModuleMeta> {
     protected resolvers: META['resolvers'],
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   stop(): void {}
 
   getServerResolver(): ServerResolver {

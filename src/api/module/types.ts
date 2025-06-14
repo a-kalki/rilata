@@ -1,14 +1,13 @@
 import { Caller } from '../../core/caller.ts';
 import { Result } from '../../core/result/types.ts';
 import { DTO } from '../../core/types.ts';
-import { Database } from '../database/database.ts';
 import { ServerResolver } from '../server/types.ts';
 
 export type Urls = string[] | RegExp[]; // example: ['/api/company-module/']
 
 export type ModuleResolver = {
   moduleUrls: Urls,
-  db: Database,
+  db: unknown,
 }
 
 export type Resolvers = {
@@ -39,6 +38,8 @@ export type ExecutableInput = {
 
 export type Executable = {
   inputName: string;
+
+  init(resolvers: Resolvers): void
 
   execute(
     input: ExecutableInput, reqScope: RequestScope,

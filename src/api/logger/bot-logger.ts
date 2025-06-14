@@ -15,14 +15,19 @@ export class BotLogger extends BaseLogger {
   }
 
   sendToBot(text: string, options?: Partial<SendMessage>): void {
-    this.config.managerIds.forEach((managerId) => {
-      this.telegramApi.postRequest({
-        method: 'sendMessage',
-        text,
-        chat_id: managerId,
-        ...options,
+    try {
+      this.config.managerIds.forEach((managerId) => {
+        this.telegramApi.postRequest({
+          method: 'sendMessage',
+          text,
+          chat_id: managerId,
+          ...options,
+        });
       });
-    });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('При отправке данных в логгер бота произошла ошибка.', err);
+    }
   }
 
   protected toLog(text: string, logAttrs?: unknown): void {

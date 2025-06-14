@@ -43,7 +43,8 @@ export class WebModuleController implements Controller {
     }
 
     try {
-      return success(await req.json());
+      const clone = req.clone();
+      return success(await clone.json());
     } catch (e) {
       return failure({
         name: 'Bad request error',

@@ -1,8 +1,8 @@
+import { JwtDecoder } from '../../../core/jwt/jwt-decoder.ts';
+import { JwtDto, JwtPayload, JwtType } from '../../../core/jwt/types.ts';
 import { JwtConfig } from '../../server/types.ts';
 import { jwtHmacHashUtils } from '../../utils/jwt/jwt-utils.ts';
 import { JwtCreator } from '../jwt-creator.ts';
-import { JwtDecoder } from '../jwt-decoder.ts';
-import { JwtDto, JwtPayload, JwtType } from '../types.ts';
 
 export class BunJwtCreator<PAYLOAD extends JwtDto> implements JwtCreator<PAYLOAD> {
   constructor(
