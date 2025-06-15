@@ -3,10 +3,9 @@ import { Result } from '../../core/result/types.ts';
 import { DTO } from '../../core/types.ts';
 import { ServerResolver } from '../server/types.ts';
 
-export type Urls = string[] | RegExp[]; // example: ['/api/company-module/']
+export type Urls = (string | RegExp)[]; // example: ['/api/company-module/']
 
 export type ModuleResolver = {
-  moduleUrls: Urls,
   db: unknown,
 }
 
@@ -22,7 +21,9 @@ export type ModuleMeta = {
   resolvers: Resolvers,
 }
 
-export type ModuleConfig = DTO;
+export type ModuleConfig = {
+  moduleUrls: Urls
+};
 
 export type RequestScope = {
   caller: Caller,

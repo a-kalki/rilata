@@ -5,7 +5,7 @@ import { success } from '../../core/result/success.ts';
 import { Result } from '../../core/result/types.ts';
 import { WebModuleController } from '../controller/web.m-controller.ts';
 import { Module } from './module.ts';
-import { Executable, ExecutableInput, ModuleConfig, ModuleMeta, RequestScope } from './types.ts';
+import { Executable, ExecutableInput, ModuleConfig, ModuleMeta, RequestScope, Urls } from './types.ts';
 
 export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
   protected controller: WebModuleController;
@@ -16,8 +16,12 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
     protected executable: Executable[],
   ) {
     super(config, resolvers);
-    this.controller = new WebModuleController(this, resolvers.moduleResolver.moduleUrls);
+    this.controller = new WebModuleController(this);
     executable.forEach((e) => e.init(resolvers));
+  }
+
+  getUrls(): Urls {
+    return this.config.moduleUrls;
   }
 
   /** Обеспачиват выполнение сервиса. */

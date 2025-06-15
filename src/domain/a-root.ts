@@ -48,7 +48,7 @@ export abstract class AggregateRoot<META extends ARMeta> {
       const body = JSON.stringify({
         attrs: this.getAttrs(),
         validationResult: invariantsResult.value,
-      });
+      }, null, 2);
       throw new AssertionException(`${err}\n\n${body}`);
     }
   }

@@ -11,10 +11,10 @@ import { Controller } from './controller.ts';
 import { RilataRequest } from './types.ts';
 
 export class WebModuleController implements Controller {
-  constructor(protected module: WebModule<ModuleMeta>, protected urls: Urls) {}
+  constructor(protected module: WebModule<ModuleMeta>) {}
 
   getUrls(): Urls {
-    return this.urls;
+    return this.module.getUrls();
   }
 
   /** Переводит http на requestDod и serviceResult на Response<ResultDTO> */
