@@ -11,7 +11,7 @@ export type ValidationError = {
 export const wholeValueValidationError: ValidationError = {
   errors: { [wholeValueValidationErrorKey]: [{
     name: 'Not valid request body',
-    text: 'Генерируется и возвращается в случае на валидного запроса на уровне use case',
+    text: '',
     hint: {},
   }] },
   name: 'Validation error',
@@ -20,43 +20,43 @@ export const wholeValueValidationError: ValidationError = {
 
 export type BadRequestError = {
   name: 'Bad request error',
-  description?: 'Возвращается в случае некорректного запроса',
+  description?: string,
   type: 'app-error',
 };
 
 export type InvalidInputNameError = {
   name: 'Invalid input name error',
-  description?: 'Возвращается в случае если не была найдена обрабатывающая команду (input) use case',
+  description?: string,
   type: 'app-error',
 };
 
 export type NotFoundError = {
   name: 'Not found error',
-  description?: 'Возвращается в случае если в запросе не валидный url',
+  description?: string,
   type: 'app-error',
 };
 
 export type NetError = {
   name: 'Network error',
-  description?: 'Возвращается в случае ошибок в запросах от модуля в сторонние сервисы',
+  description?: string,
   type: 'app-error',
 };
 
 export type InternalError = {
   name: 'Internal error',
-  description?: 'Возвращается в случае непредвиденной ошибки на сервере',
+  description?: string,
   type: 'app-error',
 };
 
 export type PermissionDeniedError = {
   name: 'Permission denied error',
-  description?: 'Возвращается когда действие допустимо только для авторизированных лиц',
+  description?: string,
   type: 'app-error',
 };
 
 export type JwtVerifyError = {
   name: 'Jwt verify error',
-  description?: 'Возвращается когда действие допустимо только для авторизированных лиц',
+  description?: string,
   type: 'app-error',
 };
 

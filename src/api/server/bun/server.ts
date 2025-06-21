@@ -51,7 +51,7 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
 
   async fetch(req: Request): Promise<Response> {
     try {
-      const middlewaresResult = this.processMiddlewares(req);
+      const middlewaresResult = await this.processMiddlewares(req);
       if (middlewaresResult !== undefined) {
         return this.processAfterware(req, middlewaresResult);
       }
@@ -98,10 +98,11 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
     });
   }
 
-  protected processMiddlewares(req: Request): Response | undefined {
+  protected async processMiddlewares(req: Request): Promise<Response | undefined> {
     // eslint-disable-next-line no-restricted-syntax
     for (const middleware of this.middlewares) {
-      const response = middleware.process(req as RilataRequest);
+      // eslint-disable-next-line no-await-in-loop
+      const response = await middleware.process(req as RilataRequest);
       if (response !== undefined) return response;
     }
     return undefined;

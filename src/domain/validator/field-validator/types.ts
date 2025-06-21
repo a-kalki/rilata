@@ -24,9 +24,18 @@ export type RuleErrors = RuleError[];
 
 export type FieldErrors = { [s: AttrName]: RuleErrors | FieldErrors};
 
+export type LiteralFieldErrors = { [s: AttrName]: RuleErrors }
+
+export type ArrayLiteralFieldErrors = { [n: number]: LiteralFieldErrors }
+
 export type ArrayFieldErrors = { [i: ArrayItemIndex]: RuleErrors | FieldErrors }
 
 export type FieldResult = Result<FieldErrors, undefined>;
+
+export type LiteralFieldResult<IS_ARR extends boolean> = Result<
+  IS_ARR extends true ? ArrayLiteralFieldErrors : LiteralFieldErrors,
+  undefined
+>;
 
 export type ArrayFieldResult = Result<ArrayFieldErrors, undefined>;
 

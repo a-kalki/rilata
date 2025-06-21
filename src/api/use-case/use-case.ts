@@ -1,3 +1,4 @@
+import { AnonymousUser, Caller } from '../../core/caller.ts';
 import { Result } from '../../core/result/types.ts';
 import { Logger } from '../logger/logger.ts';
 import { Executable, ExecutableInput, ModuleResolver, RequestScope, Resolvers } from '../module/types.ts';
@@ -27,4 +28,15 @@ export abstract class UseCase implements Executable {
   abstract execute(
     input: ExecutableInput, reqScope: RequestScope,
   ): Promise<Result<unknown, unknown>>
+
+  /** Очищает и возвращает пользовательского caller-а */
+  protected getUserCaller(reqScope: RequestScope): Exclude<Caller, AnonymousUser> {
+    if (reqScope.caller.type === 'AnonymousUser') {
+      throw this.serverResolver.logger.error(
+        `[${this.constructor.name}] run domain called by AnonymousUser`,
+        { reqScope },
+      );
+    }
+    return reqScope.caller;
+  }
 }

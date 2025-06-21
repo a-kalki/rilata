@@ -8,7 +8,7 @@ import { Module } from './module.ts';
 import { Executable, ExecutableInput, ModuleConfig, ModuleMeta, RequestScope, Urls } from './types.ts';
 
 export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
-  protected controller: WebModuleController;
+  protected controller!: WebModuleController;
 
   constructor(
     protected config: ModuleConfig,
@@ -16,7 +16,7 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
     protected executable: Executable[],
   ) {
     super(config, resolvers);
-    this.controller = new WebModuleController(this);
+    this.makeController();
     executable.forEach((e) => e.init(resolvers));
   }
 
@@ -76,16 +76,18 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
 
   protected checkInputData(input: unknown): Result<BadRequestError, ExecutableInput> {
     if (typeof input !== 'object' || input === null) {
-      return this.getBadRequestErr();
+      return this.getBadRequestErr(`Requested not Object: ${typeof input}`);
     }
 
     const { name, requestId, attrs } = input as Record<string, unknown>;
-    const nameIsNotValid = name === undefined || typeof name !== 'string';
-    const requestIdIsNotValid = requestId === undefined || typeof requestId !== 'string';
-    const attrsIsNotValid = attrs === undefined || typeof attrs !== 'object';
-
-    if (nameIsNotValid || requestIdIsNotValid || attrsIsNotValid) {
-      return this.getBadRequestErr();
+    if (name === undefined || typeof name !== 'string') {
+      return this.getBadRequestErr(`Bad name attr: ${typeof name}`);
+    }
+    if (requestId === undefined || typeof requestId !== 'string') {
+      return this.getBadRequestErr(`Bad name attr: ${typeof requestId}`);
+    }
+    if (attrs === undefined || typeof attrs !== 'object') {
+      return this.getBadRequestErr(`Bad name attr: ${typeof attrs}`);
     }
     return success(input as ExecutableInput);
   }
@@ -97,11 +99,16 @@ export abstract class WebModule<META extends ModuleMeta> extends Module<META> {
     });
   }
 
-  protected getBadRequestErr(): Result<BadRequestError, never> {
+  protected getBadRequestErr(description?: string): Result<BadRequestError, never> {
     const err: BadRequestError = {
       name: 'Bad request error',
+      description,
       type: 'app-error',
     };
     return failure(err);
+  }
+
+  protected makeController(): void {
+    this.controller = new WebModuleController(this);
   }
 }

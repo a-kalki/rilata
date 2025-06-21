@@ -26,7 +26,17 @@ class ResponseUtility {
    */
   async createFileResponse(filePath: string, options?: ResponseFileOptions): Promise<Response> {
     try {
-      const fileSize = await this.fileSize(filePath);
+      const stats = await stat(filePath).catch(() => null);
+      
+      if (!stats?.isFile()) {
+        return new Response(`File not found: ${filePath}`, {
+          status: 404,
+          headers: {
+            'Content-Type': 'text/plain',
+            'X-Error': 'FileNotFound'
+          }
+        });
+      }
       const mimeType = options?.mimeType ?? this.fileMimeType(filePath);
       const fileName = filePath.split('/').pop() ?? filePath;
 
@@ -40,7 +50,7 @@ class ResponseUtility {
 
       const headers: Record<string, string> = {
         'Content-Type': mimeTypesMap[mimeType],
-        'Content-Length': fileSize,
+        'Content-Length': stats.size.toString(),
         'Content-Disposition': disposition,
       };
 
@@ -53,6 +63,7 @@ class ResponseUtility {
         headers,
       });
     } catch (err) {
+      console.log('err by responseUtility: ', err)
       return this.createJson((err as Error).message, 500);
     }
   }

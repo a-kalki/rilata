@@ -5,7 +5,7 @@ import { success } from '../../../core/result/success.ts';
 import { Result } from '../../../core/result/types.ts';
 import { DtoFieldValidator } from '../../../domain/validator/field-validator/dto-field-validator.ts';
 import { RequestScope, Resolvers } from '../../module/types.ts';
-import { RunDomainResult, UcResult } from '../types.ts';
+import { DomainResult, UcResult } from '../types.ts';
 import { UseCase } from '../use-case.ts';
 
 export abstract class QueryUseCase<R extends Resolvers, META extends UCMeta> extends UseCase {
@@ -38,7 +38,7 @@ export abstract class QueryUseCase<R extends Resolvers, META extends UCMeta> ext
   }
 
   /** Выполнить работу доменной логики */
-  abstract runDomain(input: META['in'], requestData: RequestScope): Promise<RunDomainResult<META>>
+  abstract runDomain(input: META['in'], reqScope: RequestScope): Promise<DomainResult<META>>
 
   /** Выполнить проверку разрешений пользователя и валидации */
   protected runInitialChecks(

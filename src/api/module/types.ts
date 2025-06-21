@@ -5,9 +5,7 @@ import { ServerResolver } from '../server/types.ts';
 
 export type Urls = (string | RegExp)[]; // example: ['/api/company-module/']
 
-export type ModuleResolver = {
-  db: unknown,
-}
+export type ModuleResolver = Record<string, unknown>;
 
 export type Resolvers = {
   serverResolver: ServerResolver,

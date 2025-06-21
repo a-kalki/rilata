@@ -1,12 +1,13 @@
 import { success } from '../../../core/result/success.ts';
-import { LiteralDataType } from '../../validator/rules/types.ts';
-import { ValidationRule } from '../../validator/rules/validation-rule.ts';
+import { LiteralDataType } from '../rules/types.ts';
+import { ValidationRule } from '../rules/validation-rule.ts';
 import { CannotBeEmptyStringAssertionRule } from '../rules/assert-rules/cannot-be-empty-string.v-rule.ts';
 import { CannotBeNullableAssertionRule } from '../rules/assert-rules/cannot-be-nullable.a-rule.ts';
 import { CanBeNullableRule } from '../rules/nullable-rules/can-be-nullable.n-rule.ts';
 import { FieldValidator } from './field-validator.ts';
 import {
   FieldResult, GetArrayConfig, GetFieldValidatorDataType,
+  LiteralFieldResult,
 } from './types.js';
 
 export class LiteralFieldValidator<
@@ -23,6 +24,36 @@ export class LiteralFieldValidator<
     protected validateRules: ValidationRule<'validate', DATA_TYPE>[],
   ) {
     super(attrName, isRequired, arrayConfig, dataType);
+  }
+
+  override cloneWithName<NEW_NAME extends string>(
+    newAttrName: NEW_NAME,
+  ): LiteralFieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE> {
+    return super.cloneWithName(
+      newAttrName,
+    ) as LiteralFieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE>;
+  }
+
+  override cloneWithRequired<R extends boolean>(
+    newRequired: R,
+  ): LiteralFieldValidator<NAME, R, IS_ARR, DATA_TYPE> {
+    return super.cloneWithRequired(
+      newRequired,
+    ) as LiteralFieldValidator<NAME, R, IS_ARR, DATA_TYPE>;
+  }
+
+  override cloneWithIsArray<A extends boolean>(
+    newArrConfig: GetArrayConfig<A>,
+  ): LiteralFieldValidator<NAME, REQ, A, DATA_TYPE> {
+    return super.cloneWithIsArray(newArrConfig) as LiteralFieldValidator<NAME, REQ, A, DATA_TYPE>;
+  }
+
+  override validate(value: unknown): LiteralFieldResult<IS_ARR> {
+    return super.validate(value) as LiteralFieldResult<IS_ARR>;
+  }
+
+  protected getCloneExtraArgs(): unknown[] {
+    return [this.validateRules];
   }
 
   protected validateValue(value: unknown): FieldResult {

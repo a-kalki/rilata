@@ -5,7 +5,6 @@ import { DTO, IdType } from '../core/types.ts';
 export type EventMeta = {
   name: string; // имя для кода
   requestId: string;
-  description?: string; // описание для пользователя (документации)
   attrs: DTO, // атрибуты события
 }
 
@@ -18,7 +17,6 @@ export type DomainErrorMeta = {
 export type ARMeta = {
   name: string, // имя агрегата
   title: string, // название для пользователя
-  description?: string, // описание для пользователя (документации)
   attrs: { id: IdType } & DTO, // атрибуты агрегата
   events: EventMeta; // события которые может выпустить агрегат
 }

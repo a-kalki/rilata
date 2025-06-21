@@ -4,4 +4,4 @@ import { Result } from '../../core/result/types.ts';
 
 export type UcResult<P extends UCMeta> = Result<P['errors'] | UCBaseErrors, P['success']>
 
-export type RunDomainResult<P extends UCMeta> = Result<P['errors'], P['success']>
+export type DomainResult<P extends UCMeta> = Result<P['errors'], P['success']>

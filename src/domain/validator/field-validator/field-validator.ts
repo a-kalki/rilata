@@ -35,7 +35,7 @@ export abstract class FieldValidator<
   constructor(
     protected attrName: NAME,
     public isRequired: REQ,
-    protected arrayConfig: GetArrayConfig<IS_ARR>,
+    public arrayConfig: GetArrayConfig<IS_ARR>,
     protected dataType: GetFieldValidatorDataType<DATA_TYPE>,
   ) {
     if (arrayConfig.isArray) {
@@ -60,7 +60,58 @@ export abstract class FieldValidator<
     return validationResult;
   }
 
+  cloneWithName<NEW_NAME extends string>(
+    newAttrName: NEW_NAME,
+  ): FieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE> {
+    const CloneClass = this.constructor as new (
+      attrName: NEW_NAME,
+      required: REQ,
+      arrayConfig: GetArrayConfig<IS_ARR>,
+      dataType: GetFieldValidatorDataType<DATA_TYPE>,
+      ...rest: unknown[]
+    ) => FieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE>;
+
+    return new CloneClass(
+      newAttrName, this.isRequired, this.arrayConfig, this.dataType, ...this.getCloneExtraArgs(),
+    );
+  }
+
+  cloneWithRequired<R extends boolean>(newRequired: R): FieldValidator<NAME, R, IS_ARR, DATA_TYPE> {
+    const CloneClass = this.constructor as new (
+      attrName: NAME,
+      req: R,
+      arrayConfig: GetArrayConfig<IS_ARR>,
+      dataType: GetFieldValidatorDataType<DATA_TYPE>,
+      ...rest: unknown[]
+    ) => FieldValidator<NAME, R, IS_ARR, DATA_TYPE>;
+
+    return new CloneClass(
+      this.attrName, newRequired, this.arrayConfig, this.dataType, ...this.getCloneExtraArgs(),
+    );
+  }
+
+  cloneWithIsArray<A extends boolean>(
+    newArrConfig: GetArrayConfig<A>,
+  ): FieldValidator<NAME, REQ, A, DATA_TYPE> {
+    const CloneClass = this.constructor as new (
+      attrName: NAME,
+      req: REQ,
+      arrayConfig: GetArrayConfig<A>,
+      dataType: GetFieldValidatorDataType<DATA_TYPE>,
+      ...rest: unknown[]
+    ) => FieldValidator<NAME, REQ, A, DATA_TYPE>;
+
+    return new CloneClass(
+      this.attrName, this.isRequired, newArrConfig, this.dataType, ...this.getCloneExtraArgs(),
+    );
+  }
+
+  protected getCloneExtraArgs(): unknown[] {
+    return [];
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // для дополнительно проверки
   protected complexValidate(value: unknown): FullFieldResult {
     return success(undefined);
   }

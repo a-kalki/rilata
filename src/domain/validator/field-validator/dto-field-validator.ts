@@ -26,6 +26,32 @@ export class DtoFieldValidator<
     super(attrName, required, arrayConfig, dataType);
   }
 
+  override cloneWithName<NEW_NAME extends string>(
+    newAttrName: NEW_NAME,
+  ): DtoFieldValidator<NEW_NAME, REQ, IS_ARR, DTO_TYPE> {
+    return super.cloneWithName(
+      newAttrName,
+    ) as DtoFieldValidator<NEW_NAME, REQ, IS_ARR, DTO_TYPE>;
+  }
+
+  override cloneWithRequired<R extends boolean>(
+    newRequired: R,
+  ): DtoFieldValidator<NAME, R, IS_ARR, DTO_TYPE> {
+    return super.cloneWithRequired(
+      newRequired,
+    ) as DtoFieldValidator<NAME, R, IS_ARR, DTO_TYPE>;
+  }
+
+  override cloneWithIsArray<A extends boolean>(
+    newArrConfig: GetArrayConfig<A>,
+  ): DtoFieldValidator<NAME, REQ, A, DTO_TYPE> {
+    return super.cloneWithIsArray(newArrConfig) as DtoFieldValidator<NAME, REQ, A, DTO_TYPE>;
+  }
+
+  protected getCloneExtraArgs(): unknown[] {
+    return [this.dtoMap];
+  }
+
   protected validateValue(value: unknown): FullFieldResult {
     if (this.arrayConfig.isArray === false) {
       const nullableAnswer = this.validateNullableValue(value);

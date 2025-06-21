@@ -9,6 +9,9 @@ export type { Result, GeneralResult } from './result/types.ts';
 export * from './result/success.ts';
 export * from './result/failure.ts';
 
+export * from './module-mediator/types.ts';
+export * from './module-mediator/v-map.ts';
+
 export * from './app-meta.ts';
 export * from './caller.ts';
 export * from './contract.ts';

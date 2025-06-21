@@ -18,7 +18,7 @@ export abstract class AggregateRoot<META extends ARMeta> {
     protected invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>,
   ) {
     this.helper = new AggregateRootHelper<META>(attrs, this);
-    this.checkInveriants(invariantsValidator, attrs);
+    this.checkInvariants();
   }
 
   getId(): string {
@@ -38,13 +38,10 @@ export abstract class AggregateRoot<META extends ARMeta> {
     return this.helper;
   }
 
-  protected checkInveriants(
-    invariantsValidator: DtoFieldValidator<string, true, false, META['attrs']>,
-    attrs: META['attrs'],
-  ): void {
-    const invariantsResult = invariantsValidator.validate(attrs);
+  protected checkInvariants(): void {
+    const invariantsResult = this.invariantsValidator.validate(this.attrs);
     if (invariantsResult.isFailure()) {
-      const err = `не соблюдены инварианты агрегата ${this.constructor.name}`;
+      const err = `[${this.constructor.name}] не соблюдены инварианты агрегата`;
       const body = JSON.stringify({
         attrs: this.getAttrs(),
         validationResult: invariantsResult.value,

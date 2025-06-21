@@ -4,7 +4,6 @@ import { DTO } from './types.ts';
 export type InputMeta = {
   name: string, // имя команды
   requestId: string,
-  description?: string,
   attrs: DTO, // параметры команды
 }
 
@@ -20,7 +19,6 @@ export type UcPublishEventMeta = ArPublishEvent & {
 
 export type UCMeta = {
   name: string;
-  description?: string;
   in: InputMeta;
   success: unknown;
   errors: DomainErrorMeta;

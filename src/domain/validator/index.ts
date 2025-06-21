@@ -11,11 +11,12 @@ export * from './rules/validation-rule.ts';
 
 // +++++++++++++++ Prepared Field Validators ++++++++++++++++=
 export * from './field-validator/prepared-fields/dto/record.ts';
+export * from './field-validator/prepared-fields/not-validate-field.ts';
+export * from './field-validator/prepared-fields/string/uuid-field.ts';
 export * from './field-validator/prepared-fields/string/cannot-empty-string.ts';
 export * from './field-validator/prepared-fields/string/choice.ts';
 export * from './field-validator/prepared-fields/string/no-required-uuid-field.ts';
 export * from './field-validator/prepared-fields/string/strict-equal.ts';
-export * from './field-validator/prepared-fields/string/uuid-field.ts';
 
 // +++++++++++++++ Prepared Validator Rules ++++++++++++++++=
 // string rules
