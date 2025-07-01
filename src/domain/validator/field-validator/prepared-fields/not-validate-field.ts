@@ -1,4 +1,4 @@
-import { success } from '../../../../core/index.ts';
+import { success } from '../../../../core/result/success.ts';
 import { LiteralDataType } from '../../rules/types.ts';
 import { LiteralFieldValidator } from '../literal-field-validator.ts';
 import { FieldResult, LiteralFieldResult } from '../types.ts';

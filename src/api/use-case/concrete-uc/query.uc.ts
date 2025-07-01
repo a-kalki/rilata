@@ -3,6 +3,7 @@ import { PermissionDeniedError, ValidationError, wholeValueValidationError } fro
 import { failure } from '../../../core/result/failure.ts';
 import { success } from '../../../core/result/success.ts';
 import { Result } from '../../../core/result/types.ts';
+import { DTO } from '../../../core/types.ts';
 import { DtoFieldValidator } from '../../../domain/validator/field-validator/dto-field-validator.ts';
 import { RequestScope, Resolvers } from '../../module/types.ts';
 import { DomainResult, UcResult } from '../types.ts';
@@ -67,7 +68,7 @@ export abstract class QueryUseCase<R extends Resolvers, META extends UCMeta> ext
       this.logger.error('validate implemented only requestDod and eventDod');
       return failure(wholeValueValidationError);
     }
-    const result = this.validator.validate(input.attrs);
+    const result = this.getValidator(input).validate(input.attrs);
 
     if (result.isFailure()) {
       const err: ValidationError = {
@@ -78,5 +79,9 @@ export abstract class QueryUseCase<R extends Resolvers, META extends UCMeta> ext
       return failure(err);
     }
     return result;
+  }
+
+  protected getValidator(input: META['in']): DtoFieldValidator<string, true, boolean, DTO> {
+    return this.validator;
   }
 }

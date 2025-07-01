@@ -2,6 +2,14 @@ import { AppErrorMeta, UCMeta } from './app-meta.ts';
 import { BackendErrors, UCBaseErrors } from './errors.ts';
 import { Result } from './result/types.ts';
 
+export type PatchValue<T> = { // значение null позволяет стирать данные
+  [K in keyof T]: undefined extends T[K]
+    // null: стереть значение
+    // undefined: оставить старое значение
+    ? T[K] | undefined | null
+    : T[K];        // поле обязательное — null нельзя
+};
+
 export type ResultDTO<FAIL, SUCCESS> = {
   success: false,
   httpStatus: number,

@@ -1,10 +1,8 @@
-export type AccessType = 'public' | 'private';
-
 export type OwnerAggregateAttrs = {
   ownerId: string; // id агрегата владельца
   ownerName: string; // имя агрегата владельца
   context: string; // используемый контекст данного агрегата, например: аватар, слайдер
-  access: AccessType; // доступ
+  access: string; // доступ
 }
 
 /**

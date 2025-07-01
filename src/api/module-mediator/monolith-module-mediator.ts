@@ -1,5 +1,4 @@
 import { Caller } from '../../core/caller.ts';
-import { Logger } from '../helper.index.ts';
 import {
   CanPerformHandlerCallback,
   CanPerformPayload,
@@ -10,6 +9,7 @@ import { ModuleMediator } from './module-mediator.ts';
 import { Result } from '../../core/result/types.ts';
 import { failure } from '../../core/result/failure.ts';
 import { NotContentToDeliveryError } from '../../core/module-mediator/types.ts';
+import { Logger } from '../logger/logger.ts';
 
 /** Реализация ModuleMediator для монолитного сервера. */
 export class MonolithModuleMediator implements ModuleMediator {

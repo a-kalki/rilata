@@ -1,8 +1,7 @@
-import { UnionToTuple } from "../../core/tuple-types.ts";
-import { CannotBeEmptyStringValidationRule, LiteralFieldValidator, StringChoiceValidationRule, ValidatorMap } from "../../domain/validator/index.ts";
-import { AccessType, OwnerAggregateAttrs } from "./types.ts";
-
-export const accessTypes: UnionToTuple<AccessType> = ['public', 'private'];
+import { LiteralFieldValidator } from "../../domain/validator/field-validator/literal-field-validator.ts";
+import { ValidatorMap } from "../../domain/validator/field-validator/types.ts";
+import { CannotBeEmptyStringValidationRule } from "../../domain/validator/rules/assert-rules/cannot-be-empty-string.a-rule.ts";
+import { OwnerAggregateAttrs } from "./types.ts";
 
 export const ownerArAttrsVmap: ValidatorMap<OwnerAggregateAttrs> = {
   ownerId: new LiteralFieldValidator('ownerId', true, { isArray: false }, 'string', [
@@ -14,7 +13,5 @@ export const ownerArAttrsVmap: ValidatorMap<OwnerAggregateAttrs> = {
   context: new LiteralFieldValidator('context', true, { isArray: false }, 'string', [
     new CannotBeEmptyStringValidationRule(),
   ]),
-  access: new LiteralFieldValidator('access', true, { isArray: false }, 'string', [
-    new StringChoiceValidationRule(accessTypes),
-  ])
+  access: new LiteralFieldValidator('access', true, { isArray: false }, 'string', [])
 }

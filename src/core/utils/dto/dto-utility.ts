@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-continue */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PatchValue } from '../../contract.ts';
 import { AssertionException } from '../../exeptions.ts';
 import {
   DeepPartial,
@@ -63,6 +64,32 @@ class DtoUtility {
     });
     return returnObj;
   }
+
+  /** Возвращает объект T с измененными значениями из patch.
+    *   - если значение patch[key] === undefined, то останется старое значение
+    *   - если значение patch[key] === null, то значение очистится (атрибут удалится)
+    *   - иначе установится значение patch[key]
+  */
+  applyPatch<T extends DTO>(original: T, patch: PatchValue<T>): T {
+  const result = { ...original };
+
+  for (const key in patch) {
+    if (!Object.prototype.hasOwnProperty.call(patch, key)) continue;
+
+    const value = patch[key];
+    if (value === undefined) {
+      continue; // не меняем
+    }
+
+    if (value === null) {
+      delete result[key]; // очищаем
+    } else {
+      result[key] = value; // обновляем
+    }
+  }
+
+  return result;
+}
 
   /** Возвращает объект T, с измененными типом и значениями P.
   * - Все значения Т, перетираются значениями P с изменением типа.
