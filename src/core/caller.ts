@@ -20,6 +20,8 @@ export type ModeratorUser = {
   }
 };
 
+export type CheckedCaller = Exclude<Caller, AnonymousUser>;
+
 export type Caller = AnonymousUser | AuthUser | ModeratorUser;
 
 export type CallerType = Caller['type'];

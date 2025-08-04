@@ -1,7 +1,7 @@
 export type JwtType = 'access' | 'refresh';
 
 export type JwtDto = {
-  userId: string,
+  id: string,
   support?: {
     isModerator?: boolean,
   }

@@ -36,7 +36,7 @@ export class InjectCallerMiddleware extends ServerMiddleware {
     if (verifyResult.value.support?.isModerator) {
       const caller: Caller = {
         type: 'ModeratorUser',
-        id: verifyResult.value.userId,
+        id: verifyResult.value.id,
       };
       req.caller = caller;
       return;
@@ -44,7 +44,7 @@ export class InjectCallerMiddleware extends ServerMiddleware {
 
     const caller: Caller = {
       type: 'AuthUser',
-      id: verifyResult.value.userId,
+      id: verifyResult.value.id,
     };
     req.caller = caller;
   }

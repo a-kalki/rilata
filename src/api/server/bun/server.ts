@@ -28,11 +28,16 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
 
   protected bunServer: BUNServer | undefined;
 
+  protected maxRequestBodySize: number;
+
   constructor(
     protected config: BunServerConfig,
     protected resolver: META['resolver'],
     protected modules: Module<ModuleMeta>[],
-  ) { super(config, resolver, modules); }
+  ) {
+    super(config, resolver, modules);
+    this.maxRequestBodySize = config.maxUploadFileSizeByte;
+  }
 
   stop(): void {
     if (this.bunServer !== undefined) this.bunServer.stop();

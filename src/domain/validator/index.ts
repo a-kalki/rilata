@@ -1,12 +1,13 @@
 export * from './constants.ts';
-export { type RuleError } from './rules/types.ts';
+export type { RuleError, LiteralDataType } from './rules/types.ts';
 export type {
   RuleErrors, ValidatorMap, FieldErrors, ArrayFieldErrors,
-  GeneralDtoFieldValidator, GeneralLiteralFieldValidator,
+  GeneralDtoFieldValidator, GeneralLiteralFieldValidator, LiteralFieldErrors, ArrayLiteralFieldErrors
 } from './field-validator/types.js';
 export * from './field-validator/field-validator.ts';
 export * from './field-validator/literal-field-validator.ts';
 export * from './field-validator/dto-field-validator.ts';
+export * from './field-validator/recursive-dto-field-validator.ts';
 export * from './rules/validation-rule.ts';
 
 // +++++++++++++++ Prepared Field Validators ++++++++++++++++=

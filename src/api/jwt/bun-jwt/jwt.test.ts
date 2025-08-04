@@ -10,12 +10,12 @@ import { BaseJwtDecoder } from '../../../core/jwt/base-jwt-decoder.ts';
 import { JwtDecodeErrors, JwtVerifyErrors } from '../../../core/jwt/jwt-errors.ts';
 
 type TestJwtPayload = {
-  userId: UserId,
+  id: UserId,
 };
 
 const jwtExpiredTime = new Date('1970-01-26T23:25:55.302Z').getTime(); // 2244355302
 const refreshJwtExpiredTime = new Date('1970-01-28T23:25:55.302Z').getTime(); // 2417155302
-const jwtSecret = 'your-256-bit-secret';
+const jwtSecret = 'your-very-larger-256-bit-secret-word';
 const jwtConfig: JwtConfig = {
   algorithm: 'HS256',
   jwtLifetimeAsHour: 24,
@@ -28,7 +28,7 @@ class TestJwtDecoder extends BaseJwtDecoder<TestJwtPayload> {
   }
 
   payloadBodyIsValid(payload: TestJwtPayload): boolean {
-    return uuidUtility.isValidValue(payload.userId);
+    return uuidUtility.isValidValue(payload.id);
   }
 
   getNow(): number {
@@ -45,7 +45,7 @@ const incorectTokenError: JwtDecodeErrors = {
   type: 'app-error',
   name: 'Incorrect token error',
 };
-const correctToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MzZlNzQ2My1iMjRkLTRlN2ItYmFkOS0yYmQyZWQ4MDExZmQiLCJleHAiOjIyNDQzNTUzMDIsInR5cCI6ImFjY2VzcyJ9.JMAJlarkXQ-Za9FVpJdt42r0iv8GcE6vg81d9kxRVog';
+const correctToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNmU3NDYzLWIyNGQtNGU3Yi1iYWQ5LTJiZDJlZDgwMTFmZCIsImV4cCI6MjI0NDM1NTMwMiwidHlwIjoiYWNjZXNzIn0.mBFgpihJBl7L77REqNfDH9zXe5dUZXUN2FY3Pw57yZU';
 const incorrectToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cc2VySWQiOiI1MzZlNzQ2My1iMjRkLTRlN2ItYmFkOS0yYmQyZWQ4MDExZmQiLCJleHAiOjIyNDQzNTUzMDIsInR5cCI6ImFjY2VzcyJ9.JMAJlarkXQ-Za9FVpJdt42r0iv8GcE6vg81d9kxRVog';
 
 describe('all jwt tests', () => {
@@ -54,8 +54,8 @@ describe('all jwt tests', () => {
       const result = backendDecoder.getTokenPayload(correctToken);
       expect(result.isSuccess()).toBe(true);
       const payloadValue = result.value as TestJwtPayload;
-      expect(payloadValue.userId).toBe('536e7463-b24d-4e7b-bad9-2bd2ed8011fd');
-      expect(Object.keys(payloadValue)).toEqual(['userId']);
+      expect(payloadValue.id).toBe('536e7463-b24d-4e7b-bad9-2bd2ed8011fd');
+      expect(Object.keys(payloadValue)).toEqual(['id']);
     });
 
     test('Провал, тело токена невалидно.', () => {
@@ -111,7 +111,7 @@ describe('all jwt tests', () => {
     });
 
     describe('refresh token tests', () => {
-      const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MzZlNzQ2My1iMjRkLTRlN2ItYmFkOS0yYmQyZWQ4MDExZmQiLCJleHAiOjI0MTcxNTUzMDIsInR5cCI6InJlZnJlc2gifQ.oRmLhBnREiTzVn7fuW3M6Fo4jR3nIrgBHgO3bAyZti0';
+      const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNmU3NDYzLWIyNGQtNGU3Yi1iYWQ5LTJiZDJlZDgwMTFmZCIsImV4cCI6MjQxNzE1NTMwMiwidHlwIjoicmVmcmVzaCJ9.Is0QMIxaFajGQ1V7NRtWkCk7QEcqeaXA1vFU3lILDRU';
 
       test('успех, время рефреш токена не истекло', () => {
         // эмулирует время после истечения срока действия access токена (на всякий случай)
@@ -120,7 +120,7 @@ describe('all jwt tests', () => {
         const result = backendDecoder.getTokenPayload(refreshToken);
         expect(result.isSuccess()).toBe(true);
         expect(result.value as TestJwtPayload).toEqual({
-          userId: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd',
+          id: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd',
         });
         expect(getNowMock).toHaveBeenCalledTimes(1);
       });
@@ -144,29 +144,29 @@ describe('all jwt tests', () => {
       const jwtLifeTimeAsMs = jwtConfig.jwtLifetimeAsHour * 60 * 60 * 1000;
       const getNowMock = spyOn(backendDecoder, 'getNow').mockReturnValueOnce(jwtExpiredTime - jwtLifeTimeAsMs);
       getNowMock.mockClear();
-      const jwt = creator.createToken({ userId: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' }, 'access');
+      const jwt = creator.createToken({ id: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' }, 'access');
       expect(jwt).toBe(correctToken);
       expect(getNowMock).toHaveBeenCalledTimes(1);
 
       const payloadResult = backendDecoder.getTokenPayload(jwt);
       expect(payloadResult.isSuccess()).toBeTrue();
-      expect(payloadResult.value).toEqual({ userId: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
+      expect(payloadResult.value).toEqual({ id: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
       expect(getNowMock).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('verify jwt tests', () => {
     test('успех, верификация access прошла усешно', () => {
-      const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MzZlNzQ2My1iMjRkLTRlN2ItYmFkOS0yYmQyZWQ4MDExZmQiLCJleHAiOjIyNDQzNTUzMDIsInR5cCI6InJlZnJlc2gifQ.hqUjb_WCnBqiNDrtH8Pkn7RsKAbgFEyrDkJKXz48wrU';
+      const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNmU3NDYzLWIyNGQtNGU3Yi1iYWQ5LTJiZDJlZDgwMTFmZCIsImV4cCI6MjQxNzE1NTMwMiwidHlwIjoicmVmcmVzaCJ9.Is0QMIxaFajGQ1V7NRtWkCk7QEcqeaXA1vFU3lILDRU';
       const verifyResult = verifier.verifyToken(refreshToken);
       expect(verifyResult.isSuccess()).toBeTrue();
-      expect(verifyResult.value).toEqual({ userId: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
+      expect(verifyResult.value).toEqual({ id: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
     });
 
     test('успех, верификация refresh прошла усешно', () => {
       const verifyResult = verifier.verifyToken(correctToken);
       expect(verifyResult.isSuccess()).toBeTrue();
-      expect(verifyResult.value).toEqual({ userId: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
+      expect(verifyResult.value).toEqual({ id: '536e7463-b24d-4e7b-bad9-2bd2ed8011fd' });
     });
 
     test('провал, верификация прошла неуспешно', () => {

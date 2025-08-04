@@ -48,5 +48,10 @@ export abstract class AggregateRoot<META extends ARMeta> {
       }, null, 2);
       throw new AssertionException(`${err}\n\n${body}`);
     }
+    this.checkDomainRuleInvariants();
+  }
+
+  protected checkDomainRuleInvariants(): void {
+    return;
   }
 }

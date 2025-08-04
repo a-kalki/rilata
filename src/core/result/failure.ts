@@ -15,6 +15,14 @@ export class Failure<F, S> {
   isSuccess(): this is Success<F, S> {
     return false;
   }
+
+  toObject(): Record<string, unknown> {
+    return {
+      isFailure: true,
+      isSuccess: false,
+      value: this.value,
+    };
+  }
 }
 
 export const failure = <F, S>(l: F): Result<F, S> => new Failure(l);

@@ -29,31 +29,29 @@ export class LiteralFieldValidator<
   override cloneWithName<NEW_NAME extends string>(
     newAttrName: NEW_NAME,
   ): LiteralFieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE> {
-    return super.cloneWithName(
-      newAttrName,
-    ) as LiteralFieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE>;
+    return new LiteralFieldValidator(
+      newAttrName, this.isRequired, this.arrayConfig, this.dataType, this.validateRules,
+    );
   }
 
   override cloneWithRequired<R extends boolean>(
     newRequired: R,
   ): LiteralFieldValidator<NAME, R, IS_ARR, DATA_TYPE> {
-    return super.cloneWithRequired(
-      newRequired,
-    ) as LiteralFieldValidator<NAME, R, IS_ARR, DATA_TYPE>;
+    return new LiteralFieldValidator(
+      this.attrName, newRequired, this.arrayConfig, this.dataType, this.validateRules,
+    );
   }
 
   override cloneWithIsArray<A extends boolean>(
     newArrConfig: GetArrayConfig<A>,
   ): LiteralFieldValidator<NAME, REQ, A, DATA_TYPE> {
-    return super.cloneWithIsArray(newArrConfig) as LiteralFieldValidator<NAME, REQ, A, DATA_TYPE>;
+    return new LiteralFieldValidator(
+      this.attrName, this.isRequired, newArrConfig, this.dataType, this.validateRules,
+    );
   }
 
   override validate(value: unknown): LiteralFieldResult<IS_ARR> {
     return super.validate(value) as LiteralFieldResult<IS_ARR>;
-  }
-
-  protected getCloneExtraArgs(): unknown[] {
-    return [this.validateRules];
   }
 
   protected validateValue(value: unknown): FieldResult {

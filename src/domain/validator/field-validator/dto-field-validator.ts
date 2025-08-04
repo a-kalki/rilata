@@ -29,27 +29,25 @@ export class DtoFieldValidator<
   override cloneWithName<NEW_NAME extends string>(
     newAttrName: NEW_NAME,
   ): DtoFieldValidator<NEW_NAME, REQ, IS_ARR, DTO_TYPE> {
-    return super.cloneWithName(
-      newAttrName,
-    ) as DtoFieldValidator<NEW_NAME, REQ, IS_ARR, DTO_TYPE>;
+    return new DtoFieldValidator(
+      newAttrName, this.isRequired, this.arrayConfig, this.dataType, this.dtoMap
+    );
   }
 
   override cloneWithRequired<R extends boolean>(
     newRequired: R,
   ): DtoFieldValidator<NAME, R, IS_ARR, DTO_TYPE> {
-    return super.cloneWithRequired(
-      newRequired,
-    ) as DtoFieldValidator<NAME, R, IS_ARR, DTO_TYPE>;
+    return new DtoFieldValidator(
+      this.attrName, newRequired, this.arrayConfig, this.dataType, this.dtoMap
+    );
   }
 
-  override cloneWithIsArray<A extends boolean>(
+  cloneWithIsArray<A extends boolean>(
     newArrConfig: GetArrayConfig<A>,
   ): DtoFieldValidator<NAME, REQ, A, DTO_TYPE> {
-    return super.cloneWithIsArray(newArrConfig) as DtoFieldValidator<NAME, REQ, A, DTO_TYPE>;
-  }
-
-  protected getCloneExtraArgs(): unknown[] {
-    return [this.dtoMap];
+    return new DtoFieldValidator(
+      this.attrName, this.isRequired, newArrConfig, this.dataType, this.dtoMap
+    );
   }
 
   protected validateValue(value: unknown): FullFieldResult {

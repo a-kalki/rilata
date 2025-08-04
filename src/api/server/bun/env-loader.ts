@@ -7,6 +7,7 @@ export const defaultServerConfig: BunServerConfig = {
   localPort: 3000,
   loggerModes: 'all',
   serverName: 'default-server',
+  maxUploadFileSizeByte: 300 * 1024 * 1024,
 };
 
 export const defaultJwtConfig: JwtConfig = {
@@ -63,6 +64,7 @@ export function getServerConfig(config?: Partial<BunServerConfig>): BunServerCon
   return {
     localPort: envPort ?? config?.localPort ?? defaultServerConfig.localPort,
     localHost: process.env.LOCAL_HOST ?? config?.localHost ?? defaultServerConfig.localHost,
+    maxUploadFileSizeByte: config?.maxUploadFileSizeByte ?? defaultServerConfig.maxUploadFileSizeByte
   };
 }
 

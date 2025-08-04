@@ -50,6 +50,16 @@ export abstract class FieldValidator<
     }
   }
 
+  abstract cloneWithName<NEW_NAME extends string>(
+    newAttrName: NEW_NAME,
+  ): FieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE>
+
+  abstract cloneWithRequired<R extends boolean>(newRequired: R): FieldValidator<NAME, R, IS_ARR, DATA_TYPE>
+
+  abstract cloneWithIsArray<A extends boolean>(
+    newArrConfig: GetArrayConfig<A>
+  ): FieldValidator<NAME, REQ, A, DATA_TYPE> 
+
   validate(value: unknown): FullFieldResult {
     const validationResult = this.arrayConfig.isArray
       ? this.validateArray(value)
@@ -58,56 +68,6 @@ export abstract class FieldValidator<
       return this.complexValidate(value);
     }
     return validationResult;
-  }
-
-  cloneWithName<NEW_NAME extends string>(
-    newAttrName: NEW_NAME,
-  ): FieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE> {
-    const CloneClass = this.constructor as new (
-      attrName: NEW_NAME,
-      required: REQ,
-      arrayConfig: GetArrayConfig<IS_ARR>,
-      dataType: GetFieldValidatorDataType<DATA_TYPE>,
-      ...rest: unknown[]
-    ) => FieldValidator<NEW_NAME, REQ, IS_ARR, DATA_TYPE>;
-
-    return new CloneClass(
-      newAttrName, this.isRequired, this.arrayConfig, this.dataType, ...this.getCloneExtraArgs(),
-    );
-  }
-
-  cloneWithRequired<R extends boolean>(newRequired: R): FieldValidator<NAME, R, IS_ARR, DATA_TYPE> {
-    const CloneClass = this.constructor as new (
-      attrName: NAME,
-      req: R,
-      arrayConfig: GetArrayConfig<IS_ARR>,
-      dataType: GetFieldValidatorDataType<DATA_TYPE>,
-      ...rest: unknown[]
-    ) => FieldValidator<NAME, R, IS_ARR, DATA_TYPE>;
-
-    return new CloneClass(
-      this.attrName, newRequired, this.arrayConfig, this.dataType, ...this.getCloneExtraArgs(),
-    );
-  }
-
-  cloneWithIsArray<A extends boolean>(
-    newArrConfig: GetArrayConfig<A>,
-  ): FieldValidator<NAME, REQ, A, DATA_TYPE> {
-    const CloneClass = this.constructor as new (
-      attrName: NAME,
-      req: REQ,
-      arrayConfig: GetArrayConfig<A>,
-      dataType: GetFieldValidatorDataType<DATA_TYPE>,
-      ...rest: unknown[]
-    ) => FieldValidator<NAME, REQ, A, DATA_TYPE>;
-
-    return new CloneClass(
-      this.attrName, this.isRequired, newArrConfig, this.dataType, ...this.getCloneExtraArgs(),
-    );
-  }
-
-  protected getCloneExtraArgs(): unknown[] {
-    return [];
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
