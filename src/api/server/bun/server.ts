@@ -49,8 +49,11 @@ export abstract class BunServer<META extends ServerMeta> extends Server<META> {
   protected startServer(): void {
     this.setControllerUrls();
     const { localPort, localHost } = this.config;
-    this.fetch = this.fetch.bind(this);
-    this.bunServer = Bun.serve(this as unknown as Serve<unknown>);
+    this.bunServer = Bun.serve({
+      port: localPort,
+      hostname: localHost,
+      fetch: this.fetch.bind(this),
+    });
     this.resolver.logger.info(`Http Bun server runned by address: ${localHost}:${localPort}`);
   }
 
